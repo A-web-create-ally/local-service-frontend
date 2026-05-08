@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import AOS from "aos";
 
 import a1 from '../assets/img/portfolio/app-1.jpg'
-import a2 from '../assets/img/portfolio/app-2.jpg'
+import a2 from '../assets/img/portfolio/homeclean.avif'
 import a3 from '../assets/img/portfolio/app-3.jpg'
 import p1 from '../assets/img/portfolio/product-1.jpg'
 import p2 from '../assets/img/portfolio/product-2.jpg'

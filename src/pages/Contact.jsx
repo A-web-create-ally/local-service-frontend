@@ -1,88 +1,108 @@
-function Contact(){
+import { useState } from "react";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import HeroMap from "./HeroMap";
 
+function Contact() {
+  const [address, setAddress] = useState("Ahmedabad, Gujarat, India");
 
-return(
-<>
-<section id="contact" class="contact section">
-<div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur</p>
-      </div>
+  // Convert address to map URL
+  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+  return (
+    <>
+    <Header/>
+    <HeroMap />
+      <section id="contact" className="contact section position-relative">
 
-        <div class="row gy-4">
-          <div class="col-lg-6 ">
-            <div class="row gy-4">
-
-              <div class="col-lg-12">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
-                  <i class="bi bi-geo-alt"></i>
-                  <h3>Address</h3>
-                  <p>A108 Adam Street, New York, NY 535022</p>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
-                  <i class="bi bi-telephone"></i>
-                  <h3>Call Us</h3>
-                  <p>+1 5589 55488 55</p>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
-                  <i class="bi bi-envelope"></i>
-                  <h3>Email Us</h3>
-                  <p>info@example.com</p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required=""/>
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required=""/>
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required=""/>
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
+        {/* 🔥 Background Map */}
+        <div className="map-bg">
+          <iframe
+            src={mapSrc}
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+          ></iframe>
         </div>
 
-      </div>
+        {/* Overlay Content */}
+        <div className="container section-title text-center" data-aos="fade-up">
+          <h2>Contact Us</h2>
+          <p>Get in touch with us for any service</p>
+        </div>
 
-    </section>
-</>
+        <div className="container position-relative" data-aos="fade-up">
 
+          <div className="row gy-4">
 
-)
+            {/* LEFT SIDE */}
+            <div className="col-lg-6">
+              <div className="info-box p-4 shadow bg-white rounded">
+
+                <h4>Our Address</h4>
+
+                {/* Dynamic Address Input */}
+                <input
+                  type="text"
+                  className="form-control mb-3"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+
+                <p>{address}</p>
+
+                <hr />
+
+                <p><strong>Phone:</strong> +91 9876543210</p>
+                <p><strong>Email:</strong> support@localservices.com</p>
+              </div>
+            </div>
+
+            {/* RIGHT SIDE FORM */}
+            <div className="col-lg-6">
+              <div className="form-box p-4 shadow bg-white rounded">
+                <form>
+                  <div className="row gy-3">
+
+                    <div className="col-md-6">
+                      <input type="text" className="form-control" placeholder="Your Name" required />
+                    </div>
+
+                    <div className="col-md-6">
+                      <input type="email" className="form-control" placeholder="Your Email" required />
+                    </div>
+
+                    <div className="col-md-12">
+                      <input type="text" className="form-control" placeholder="Subject" required />
+                    </div>
+
+                    <div className="col-md-12">
+                      <textarea className="form-control" rows="4" placeholder="Message" required></textarea>
+                    </div>
+
+                    <div className="col-md-12 text-center">
+                      <button className="btn btn-primary w-100">
+                        Send Message
+                      </button>
+                    </div>
+
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+     <Footer/>
+      
+      
+    </>
+  );
 }
 
 export default Contact;

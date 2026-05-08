@@ -245,7 +245,8 @@ body.mobile-nav-active .navmenu ul {
   padding: 20px 0;
   transition: all 0.5s;
   z-index: 997;
-  background: transparent;
+  /*background: transparent;*/
+  background-color: #000910;
 }
 
 .header .logo {
@@ -2029,3 +2030,54 @@ header .logo .sitename {
 # Starter Section Section
 --------------------------------------------------------------*/
 
+.contact {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .map-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          opacity: 0.3;
+        }
+
+        .contact .container {
+          position: relative;
+          z-index: 2;
+        }
+         .hero-map {
+          height: 90vh;
+          position: relative;
+          overflow: hidden;
+          margin-top: 89px;
+        }
+
+        .map-frame {
+          width: 100%;
+          height: 100%;
+          border: 0;
+        }
+
+        .overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.5);
+          z-index: 2;
+        }
+
+        .content {
+          max-width: 500px;
+        }
+
+        .search-box input {
+          padding: 12px;
+          border-radius: 8px;
+          border: none;
+        }

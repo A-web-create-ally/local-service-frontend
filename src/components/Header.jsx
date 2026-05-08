@@ -35,11 +35,11 @@ function Header() {
               
               <li> <Link to="/Home">Home</Link></li>
                <li><Link to="/services">Services</Link></li>
-               <li><a href="#By Booking">By Booking</a></li>
-              <li><a href="#Dashboard">Dashboard</a></li>
-               <li><Link to="/logIn">LogIn</Link></li>
-            <li><a href="#">Sing up</a></li>               
-             <li><a href="#contact">Contact</a></li>
+               <li><a href="#By Booking">My Booking</a></li>
+             
+             <li><Link to="/Contact">Contact</Link></li>
+                           
+             
              
              
              </ul>

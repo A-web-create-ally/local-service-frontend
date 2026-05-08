@@ -37,7 +37,7 @@ function Service(){
       {/* <!-- Section Title --> */}
   <div className="container section-title" data-aos="fade-up">
   <h2>Our Services</h2>
-   <p>Our Top Services </p>
+   <p>Our Top Services</p>
 </div>
       {/* <!-- End Section Title --> */}
 
@@ -283,6 +283,7 @@ function Service(){
       </div>
 
     </section>
+   
     {/* <!-- /Services 2 Section --> */}
 
     {/* <!-- Testimonials Section --> */}

@@ -226,90 +226,111 @@ const Home = () => {
      <Featured />
     
     {/* <!-- Services 2 Section --> */}
+    
     <section id="services-2" className="services-2 section light-background">
 
-      {/* <!-- Section Title --> */}
-      <div className="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
-        <p>CHECK OUR SERVICES</p>
-      </div>
-      {/* <!-- End Section Title --> */}
+  <div className="container section-title" data-aos="fade-up">
+    <h2>Services</h2>
+    <p>CHECK OUR SERVICES</p>
+  </div>
 
-      <div className="container">
+  <div className="container">
+    <div className="row gy-4">
 
-        <div className="row gy-4">
-
-          <div className="col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-briefcase icon flex-shrink-0"></i>
-              <div>
-                <h4 className="title"><a href="#" className="stretched-link">Lorem Ipsum</a></h4>
-                <p className="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-              </div>
-            </div>
+      {/* Plumbing */}
+      <div className="col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div className="service-item d-flex position-relative h-100">
+          <i className="bi bi-droplet icon flex-shrink-0"></i>
+          <div>
+            <h4 className="title">
+              <a href="#" className="stretched-link">Plumbing</a>
+            </h4>
+            <p className="description">
+              Expert plumbers for pipe repair, leakage fixing, bathroom fittings, and water system maintenance.
+            </p>
           </div>
-          {/* <!-- End Service Item --> */}
-
-          <div className="col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-card-checklist icon flex-shrink-0"></i>
-              <div>
-                <h4 className="title"><a href="#" className="stretched-link">Dolor Sitema</a></h4>
-                <p className="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Service Item --> */}
-
-          <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-bar-chart icon flex-shrink-0"></i>
-              <div>
-                <h4 className="title"><a href="#" className="stretched-link">Sed ut perspiciatis</a></h4>
-                <p className="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Service Item --> */}
-
-          <div className="col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-binoculars icon flex-shrink-0"></i>
-              <div>
-                <h4 className="title"><a href="#" className="stretched-link">Magni Dolores</a></h4>
-                <p className="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Service Item --> */}
-
-          <div className="col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-brightness-high icon flex-shrink-0"></i>
-              <div>
-                <h4 className="title"><a href="#" className="stretched-link">Nemo Enim</a></h4>
-                <p className="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Service Item --> */}
-
-          <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-calendar4-week icon flex-shrink-0"></i>
-              <div>
-                <h4 className="title"><a href="#" className="stretched-link">Eiusmod Tempor</a></h4>
-                <p className="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Service Item --> */}
-
         </div>
-
       </div>
 
-    </section>
+      {/* Electrician */}
+      <div className="col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div className="service-item d-flex position-relative h-100">
+          <i className="bi bi-lightning icon flex-shrink-0"></i>
+          <div>
+            <h4 className="title">
+              <a href="#" className="stretched-link">Electrician</a>
+            </h4>
+            <p className="description">
+              Professional electricians for wiring, switch repair, fan installation, and electrical maintenance.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Carpenter */}
+      <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div className="service-item d-flex position-relative h-100">
+          <i className="bi bi-hammer icon flex-shrink-0"></i>
+          <div>
+            <h4 className="title">
+              <a href="#" className="stretched-link">Carpenter</a>
+            </h4>
+            <p className="description">
+              Skilled carpenters for furniture making, repair, modular work, and wood polishing.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Cleaning */}
+      <div className="col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div className="service-item d-flex position-relative h-100">
+          <i className="bi bi-bucket icon flex-shrink-0"></i>
+          <div>
+            <h4 className="title">
+              <a href="#" className="stretched-link">Home Cleaning</a>
+            </h4>
+            <p className="description">
+              Deep cleaning services for home, kitchen, bathroom, and office spaces.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* AC Repair */}
+      <div className="col-md-6" data-aos="fade-up" data-aos-delay="500">
+        <div className="service-item d-flex position-relative h-100">
+          <i className="bi bi-snow icon flex-shrink-0"></i>
+          <div>
+            <h4 className="title">
+              <a href="#" className="stretched-link">AC Repair</a>
+            </h4>
+            <p className="description">
+              AC installation, gas filling, servicing, and repair by certified technicians.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Painting */}
+      <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
+        <div className="service-item d-flex position-relative h-100">
+          <i className="bi bi-brush icon flex-shrink-0"></i>
+          <div>
+            <h4 className="title">
+              <a href="#" className="stretched-link">Painting</a>
+            </h4>
+            <p className="description">
+              Interior and exterior painting services with professional finishing.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
     {/* <!-- /Services 2 Section --> */}
 
     {/* <!-- Testimonials Section --> */}
@@ -447,9 +468,6 @@ const Home = () => {
       
       <About/>
       <Portfolio/>
-    
-      <Contact/>
-      
       <Footer/>
     </>
   );
