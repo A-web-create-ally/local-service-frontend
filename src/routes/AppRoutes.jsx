@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import LogIn from "../pages/logIn";
 import ServicesDetails from "../pages/servicesDetails";
 import Contact  from "../pages/Contact";
+import Portfoliox from "../pages/protfoliox";
 // import About from "../pages/About";
 // import Contact from "../pages/Contact";
 
@@ -14,8 +15,10 @@ const AppRoutes = () => {
       <Route path="/Home" element={<Home />} />
       <Route path="/LogIn" element={<LogIn />} />
       <Route path="/services" element={<ServicesDetails/>} />
+      <Route path="/services/:id" element={<ServicesDetails />}
+/>
       <Route path="/Contact" element={<Contact />} />
-
+      <Route path="/Portfolio" element={<Portfoliox />}/>
       {/* future pages */}
       {/* <Route path="/about" element={<About />} /> */}
       {/* <Route path="/contact" element={<Contact />} /> */}

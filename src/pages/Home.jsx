@@ -80,7 +80,7 @@ const Home = () => {
           <div className="icon">
             <i className="bi bi-wrench"></i>
           </div>
-          <a href="service-details.html" className="stretched-link">
+          <a href="/services" className="stretched-link">
             <h3>Plumbing Services</h3>
           </a>
           <p>24/7 emergency plumbing, leak repairs, pipe installation & bathroom fittings. Certified plumbers available in your area within 1 hour.</p>

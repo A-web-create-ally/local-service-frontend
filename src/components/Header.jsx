@@ -59,6 +59,8 @@ function Header() {
 
               <li><Link to="/Contact">Contact</Link></li>
 
+             <li><Link to="/Portfolio">Portfolio</Link></li>
+
             </ul>
 
             <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>

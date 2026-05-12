@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { Link } from "react-router-dom";
 import service1 from "../assets/img/services-1.jpg"
 import service2 from "../assets/img/services-2.jpg"
 import service3 from "../assets/img/services-3.jpg"
@@ -24,6 +25,7 @@ import carpenter from "../assets/img/carpenter.webp";
 import home1 from "../assets/img/homecleaning.jpeg";
 import spa1 from "../assets/img/spa1.jpeg";
 import Featured from "./featurs.jsx";
+
 
 
 
@@ -53,7 +55,7 @@ function Service(){
           <div className="icon">
             <i className="bi bi-wrench"></i>
           </div>
-          <a href="service-details.html" className="stretched-link">
+          <a href="servicesDetails" className="stretched-link">
             <h3>Plumbing Services</h3>
           </a>
           <p>24/7 emergency plumbing, leak repairs, pipe installation & bathroom fittings. Certified plumbers available in your area within 1 hour.</p>
@@ -71,7 +73,7 @@ function Service(){
           <div className="icon">
             <i className="bi bi-lightning-charge"></i>
           </div>
-          <a href="service-details.html" className="stretched-link">
+          <a href="ServicesDetails" className="stretched-link">
             <h3>Electrical Work</h3>
           </a>
           <p>Wiring, repairs, fan/AC installation, solar panels & safety checks. Licensed electricians with 5+ years experience.</p>
@@ -89,7 +91,7 @@ function Service(){
           <div className="icon">
             <i className="bi bi-hammer"></i>
           </div>
-          <a href="service-details.html" className="stretched-link">
+          <a href="ServicesDetails" className="stretched-link">
             <h3>Carpentry & Furniture</h3>
           </a>
           <p>Custom furniture, repairs, kitchen cabinets, wardrobes & wooden flooring. Local craftsmen with guaranteed quality work.</p>
