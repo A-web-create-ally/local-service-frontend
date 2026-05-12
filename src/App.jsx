@@ -1,3 +1,4 @@
+// src/App.jsx
 import { useEffect } from "react";
 import AppRoutes from "./routes/AppRoutes";
 
@@ -8,13 +9,12 @@ import "aos/dist/aos.css";
 function App() {
   useEffect(() => {
     AOS.init({
-      duration: 1000, // animation time (ms)
-      offset: 100,    // scroll offset
-      easing: "ease", // easing type
-      once: true,     // sirf ek baar animation
+      duration: 1000,
+      offset: 100,
+      easing: "ease",
+      once: true,
     });
   }, []);
-
 
   return <AppRoutes />;
 }

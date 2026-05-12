@@ -1,128 +1,111 @@
-import about from "../assets/img/about.jpg";
-import about2 from "../assets/img/about-2.jpg";
-import ac3 from "../assets/img/ac3.jpg";
-import house from "../assets/img/house.jpeg"
+import React from "react";
+import team1 from '../assets/img/team/team-1.jpg';
+import team2 from '../assets/img/team/team-2.jpg';
+import team3 from '../assets/img/team/team-3.jpg';
+import "../assets/styles/About.css";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
+const teamMembers = [
+  {
+    name: "Walter White",
+    role: "Frontend Developer",
+    image: team1,
+    
+  },
+  {
+    name: "Sarah Jhonson",
+    role: "Backend Developer",
+    image: team2,
+   
+  },
+  {
+    name: "William Anderson",
+    role: "UI/UX Designer",
+    image: team3,
+   
+  },
+];
 
-function About(){
-    return(
-        <>
-        <section id="about" className="about section">
+const About = () => {
+  return (
+    <>
+    <Header/>
+    <div className="about-page">
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-content">
+          <h1>About Us</h1>
+          <p>
+            We connect customers with trusted professionals for home services.
+          </p>
+        </div>
+      </section>
 
-      <div className="container">
+      {/* Mission */}
+      <section className="about-section">
+        <h2>Our Mission</h2>
+        <p>
+          Our mission is to make local services easy, affordable, and
+          trustworthy for everyone.
+        </p>
+      </section>
 
-        <div className="row gy-4">
-          <div className="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-           <h3>We Help You Find Trusted Local Service Professionals Easily</h3>
-            <img src={ac3} className="img-fluid rounded-4 mb-4" alt=""/>
-           <p>
-  Our platform connects you with reliable and verified local service providers 
-  for all your daily needs. Whether you need a plumber, electrician, cleaner, 
-  or any other home service, we make it simple and fast to book.
-</p>
+      {/* Vision */}
+      <section className="about-section">
+        <h2>Our Vision</h2>
+        <p>To become India’s most trusted service marketplace.</p>
+      </section>
 
-<p>
-  We focus on quality, trust, and convenience. Every service provider is 
-  carefully selected so you get the best experience without any hassle. 
-  Save your time and get your work done by professionals near you.
-</p>
-</div>
-          <div className="col-lg-6" data-aos="fade-up" data-aos-delay="250">
-            <div className="content ps-0 ps-lg-5">
-            <p className="fst-italic">
-  Book services anytime, anywhere with just a few clicks.
-</p>
+      {/* Why Choose Us */}
+      <section className="about-section">
+        <h2>Why Choose Us?</h2>
 
-<ul>
-  <li>
-    <i className="bi bi-check-circle-fill"></i> 
-    <span>Verified and trusted professionals</span>
-  </li>
-  <li>
-    <i className="bi bi-check-circle-fill"></i> 
-    <span>Quick booking and fast service</span>
-  </li>
-  <li>
-    <i className="bi bi-check-circle-fill"></i> 
-    <span>Affordable pricing with quality work</span>
-  </li>
-</ul>
+        <div className="features">
+          <div className="feature-card">
+            <h3>Verified Professionals</h3>
+            <p>Experienced and background-checked service providers.</p>
+          </div>
 
-<p>
-  From small fixes to major home services, we ensure you get the right expert 
-  at the right time. Our goal is to make local services easily accessible 
-  for everyone.
-</p>
+          <div className="feature-card">
+            <h3>Quick Booking</h3>
+            <p>Book any service in minutes.</p>
+          </div>
 
-              <div className="position-relative mt-4">
-                <img src={house} className="img-fluid rounded-4" alt=""/>
-                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" className="glightbox pulsating-play-btn"></a>
-              </div>
-            </div>
+          <div className="feature-card">
+            <h3>Secure Payments</h3>
+            <p>100% safe and transparent payment process.</p>
           </div>
         </div>
+      </section>
 
-      </div>
+      {/* Team */}
+      <section className="about-section">
+        <h2>Meet Our Team</h2>
 
-    </section>
-
-    <section id="stats" className="stats section light-background">
-
-      <div className="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div className="row gy-4">
-
-          <div className="col-lg-3 col-md-6">
-            <div className="stats-item d-flex align-items-center w-100 h-100">
-              <i className="bi bi-emoji-smile color-blue flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" className="purecounter">232</span>
-                <p>Happy Clients</p>
-              </div>
+        <div className="team-container">
+          {teamMembers.map((member, index) => (
+            <div className="team-card" key={index}>
+            <img src={member.image}  alt={member.name} /> 
+            
+          
+              <h3>{member.name}</h3>
+              <p>{member.role}</p>
             </div>
-          </div>
-          {/* <!-- End Stats Item --> */}
-
-          <div className="col-lg-3 col-md-6">
-            <div className="stats-item d-flex align-items-center w-100 h-100">
-              <i className="bi bi-journal-richtext color-orange flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" className="purecounter">521</span>
-                <p>Projects</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Stats Item --> */}
-
-          <div className="col-lg-3 col-md-6">
-            <div className="stats-item d-flex align-items-center w-100 h-100">
-              <i className="bi bi-headset color-green flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" className="purecounter">1463</span>
-                <p>Hours Of Support</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Stats Item --> */}
-
-          <div className="col-lg-3 col-md-6">
-            <div className="stats-item d-flex align-items-center w-100 h-100">
-              <i className="bi bi-people color-pink flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" className="purecounter">15</span>
-                <p>Hard Workers</p>
-              </div>
-            </div>
-          </div>
-          {/* <!-- End Stats Item --> */}
-
+          ))}
         </div>
+      </section>
 
-      </div>
+      {/* Contact */}
+      <section className="about-section contact">
+        <h2>Contact Us</h2>
+        <p>Email: support@example.com</p>
+        <p>Phone: +91 9876543210</p>
+      </section>
+    </div>
+    <Footer/>
+    </>
+  );
+};
 
-    </section>
-    {/* <!-- /Stats Section --> */}
-        </>
-    )
-}
-export default About
+export default About;

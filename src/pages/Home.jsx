@@ -4,7 +4,7 @@ import heroBg from "../assets/img/hero-bg.jpg";
 import spa from "../assets/img/spa.jpg";
 import Footer from "../components/Footer.jsx";
 import Header from "../components/Header.jsx";
-import About from "./About.jsx"
+import About from "./About";
 import Portfolio from "./portfolio.jsx";
 import Service from "./Services.jsx";
 import Contact from "./Contact.jsx";
@@ -466,7 +466,7 @@ const Home = () => {
 </section>
 
       
-      <About/>
+      
       <Portfolio/>
       <Footer/>
     </>
