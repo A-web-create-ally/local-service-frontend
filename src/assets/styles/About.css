@@ -1,4 +1,4 @@
-/* src/pages/About.css */
+
 
 * {
   margin: 0;
@@ -7,19 +7,21 @@
 }
 
 .about-page {
-  font-family: Arial, sans-serif;
-  color: #333;
-  background: #f9fafb;
+  background-image: url("../about-bg.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 60px 20px;
 }
 
-/* Hero Section */
+
 .hero {
-  background: linear-gradient(135deg, #2563eb, #9a1dd8);
+  background: transparent;
   color: white;
   text-align: center;
   padding: 100px 20px;
 }
-
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
@@ -37,12 +39,13 @@
   opacity: 0.95;
 }
 
-/* Common Section */
+
 .about-section {
   max-width: 1100px;
   margin: 0 auto;
   padding: 80px 20px;
   text-align: center;
+  background: #e5e7eb;
 }
 
 .about-section h2 {
@@ -59,7 +62,7 @@
   margin: 0 auto;
 }
 
-/* Features */
+
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

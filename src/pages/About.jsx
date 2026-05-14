@@ -2,6 +2,7 @@ import React from "react";
 import team1 from '../assets/img/team/team-1.jpg';
 import team2 from '../assets/img/team/team-2.jpg';
 import team3 from '../assets/img/team/team-3.jpg';
+import aboutBg from "../assets/about-bg.jpeg";
 import "../assets/styles/About.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -31,8 +32,7 @@ const About = () => {
   return (
     <>
     <Header/>
-    <div className="about-page">
-      {/* Hero Section */}
+    <div className="about-page">       
       <section className="hero">
         <div className="hero-content">
           <h1>About Us</h1>
