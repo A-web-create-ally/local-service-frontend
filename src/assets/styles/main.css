@@ -2056,7 +2056,11 @@ header .logo .sitename {
           overflow: hidden;
           margin-top: 89px;
         }
-
+        @media (max-width: 1200px) {
+        .hero-map {
+         margin-top: 74.3px;
+       }
+      }
         .map-frame {
           width: 100%;
           height: 100%;
