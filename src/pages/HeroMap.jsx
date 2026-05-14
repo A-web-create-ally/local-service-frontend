@@ -6,7 +6,7 @@ function HeroMap() {
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(location)}&output=embed`;
 
   return (
-    <section className="hero-map position-relative">
+    <section className="hero-map position-relative ">
 
       {/* 🔥 Background Map */}
       <iframe

@@ -13,7 +13,7 @@ function Contact() {
     <>
     <Header/>
     <HeroMap />
-      <section id="contact" className="contact section position-relative">
+      <section id="contact" className="contact section position-relative ">
 
         {/* 🔥 Background Map */}
         <div className="map-bg">
