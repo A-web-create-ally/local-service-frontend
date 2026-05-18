@@ -60,6 +60,7 @@ function Header() {
               <li><Link to="/Contact">Contact</Link></li>
 
                <li><Link to="/about">About Us</Link></li>
+               <li><Link to="/Portfolio">Portfolio</Link></li>
 
             </ul>
 
