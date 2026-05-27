@@ -7,8 +7,9 @@ import '../assets/styles/login.css';
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [showOffcanvas, setShowOffcanvas] = useState(false); // Login Offcanvas
-  const [showSignupModal, setShowSignupModal] = useState(false); // Sign In Modal
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [isClosingModal, setIsClosingModal] = useState(false);
 
   useEffect(() => {
     const headerSticky = () => {
@@ -23,6 +24,15 @@ function Header() {
 
     return () => window.removeEventListener("scroll", headerSticky);
   }, []);
+
+  const closeSignupModal = () => {
+    setIsClosingModal(true);
+
+    setTimeout(() => {
+      setShowSignupModal(false);
+      setIsClosingModal(false);
+    }, 500);
+  };
 
   return (
     <div className="index-page">
@@ -52,23 +62,28 @@ function Header() {
             <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
 
-          {/* Sign In and Login Buttons */}
+          {/* Buttons */}
           <div className="d-flex gap-2">
-            {/* Sign In Button */}
+
+            {/* Sign In */}
             <button
               className="cta-btn border-0"
-              onClick={() => setShowSignupModal(true)}
+              onClick={() => {
+                setIsClosingModal(false);
+                setShowSignupModal(true);
+              }}
             >
               Sign In
             </button>
 
-            {/* Login Button */}
+            {/* Login */}
             <button
               className="cta-btn border-0"
               onClick={() => setShowOffcanvas(true)}
             >
               Login
             </button>
+
           </div>
         </div>
       </header>
@@ -80,7 +95,9 @@ function Header() {
         }`}
       >
         <div className="offcanvas-header border-bottom">
-          <h5 className="offcanvas-title fw-bold">Login Account</h5>
+          <h5 className="offcanvas-title fw-bold">
+            Login Account
+          </h5>
 
           <button
             type="button"
@@ -91,8 +108,11 @@ function Header() {
 
         <div className="offcanvas-body fade-animation">
           <form>
+
+            {/* Email */}
             <div className="mb-3">
               <label className="form-label">Email</label>
+
               <input
                 type="email"
                 className="form-control"
@@ -100,8 +120,10 @@ function Header() {
               />
             </div>
 
+            {/* Password */}
             <div className="mb-3">
               <label className="form-label">Password</label>
+
               <input
                 type="password"
                 className="form-control"
@@ -109,66 +131,86 @@ function Header() {
               />
             </div>
 
+            {/* Login Button */}
             <button className="btn btn-primary w-100">
               Login
             </button>
+
+            {/* Sign In Link Added */}
+            <p className="text-center mt-3 mb-0 text-white">
+              Don’t have an account?{" "}
+
+              <span
+                className="fw-semibold signup-login-link"
+                onClick={() => {
+                  setShowOffcanvas(false);
+
+                  setTimeout(() => {
+                    setIsClosingModal(false);
+                    setShowSignupModal(true);
+                  }, 300);
+                }}
+              >
+                Sign In
+              </span>
+            </p>
+
           </form>
         </div>
       </div>
 
-      {/* ================= SIGN IN MODAL ================= */}
+      {/* ================= SIGNUP MODAL ================= */}
       {showSignupModal && (
         <div
-          className="modal fade show d-block"
+          className="signup-modal-overlay modal fade show d-block"
           tabIndex="-1"
-          style={{
-            backgroundColor: "rgba(0, 0, 0, 0.65)",
-            backdropFilter: "blur(5px)",
-          }}
-          onClick={() => setShowSignupModal(false)}
         >
           <div
             className="modal-dialog modal-dialog-centered modal-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* 👇 Animation class added here */}
             <div
-              className="modal-content border-0 shadow-lg rounded-4 signup-modal-animation"
-              style={{ overflow: "hidden" }}
+              className={`modal-content border-0 shadow-lg rounded-4 ${
+                isClosingModal
+                  ? "signup-modal-close-animation"
+                  : "signup-modal-animation"
+              }`}
             >
+
               {/* Modal Header */}
-              <div
-                className="modal-header border-0 text-white"
-                style={{
-                  background: "rgba(15, 23, 42, 0.75)",
-                  border: "none",
-                }}
-              >
+              <div className="modal-header signup-modal-header border-0 text-white">
+
                 <div>
                   <h3 className="modal-title fw-bold mb-1">
                     Create Your Account
                   </h3>
+
                   <p className="mb-0 opacity-75 small">
                     Join JustBook and book services quickly and easily.
                   </p>
                 </div>
 
+                {/* Close Button */}
                 <button
                   type="button"
                   className="btn-close btn-close-white"
-                  onClick={() => setShowSignupModal(false)}
+                  onClick={closeSignupModal}
                 ></button>
+
               </div>
 
               {/* Modal Body */}
               <div className="modal-body p-4 p-md-5">
                 <form>
+
                   <div className="row">
+
                     {/* Full Name */}
                     <div className="col-md-6 mb-3">
                       <label className="form-label fw-semibold">
                         Full Name
                       </label>
+
                       <input
                         type="text"
                         className="form-control"
@@ -181,6 +223,7 @@ function Header() {
                       <label className="form-label fw-semibold">
                         Email Address
                       </label>
+
                       <input
                         type="email"
                         className="form-control"
@@ -188,11 +231,12 @@ function Header() {
                       />
                     </div>
 
-                    {/* Phone Number */}
+                    {/* Phone */}
                     <div className="col-md-6 mb-3">
                       <label className="form-label fw-semibold">
                         Phone Number
                       </label>
+
                       <input
                         type="tel"
                         className="form-control"
@@ -205,6 +249,7 @@ function Header() {
                       <label className="form-label fw-semibold">
                         Address
                       </label>
+
                       <input
                         type="text"
                         className="form-control"
@@ -217,6 +262,7 @@ function Header() {
                       <label className="form-label fw-semibold">
                         Password
                       </label>
+
                       <input
                         type="password"
                         className="form-control"
@@ -229,21 +275,24 @@ function Header() {
                       <label className="form-label fw-semibold">
                         Confirm Password
                       </label>
+
                       <input
                         type="password"
                         className="form-control"
                         placeholder="Confirm password"
                       />
                     </div>
+
                   </div>
 
-                  {/* Terms and Conditions */}
+                  {/* Terms */}
                   <div className="form-check mb-4">
                     <input
                       className="form-check-input"
                       type="checkbox"
                       id="termsCheck"
                     />
+
                     <label
                       className="form-check-label small text-muted"
                       htmlFor="termsCheck"
@@ -252,14 +301,10 @@ function Header() {
                     </label>
                   </div>
 
-                  {/* Submit Button */}
+                  {/* Submit */}
                   <button
                     type="submit"
-                    className="btn w-100 py-2 fw-bold rounded-3 text-white"
-                    style={{
-                      background: "linear-gradient(135deg, #ff4a17, #ff4a17)",
-                      border: "none",
-                    }}
+                    className="signup-submit-btn btn w-100 py-2 fw-bold rounded-3 text-white"
                   >
                     Create Account
                   </button>
@@ -267,19 +312,24 @@ function Header() {
                   {/* Footer */}
                   <p className="text-center mt-3 mb-0 text-muted">
                     Already have an account?{" "}
+
                     <span
-                      className="text-primary fw-semibold"
-                      style={{ cursor: "pointer" }}
+                      className="text-primary fw-semibold signup-login-link"
                       onClick={() => {
-                        setShowSignupModal(false);
-                        setShowOffcanvas(true);
+                        closeSignupModal();
+
+                        setTimeout(() => {
+                          setShowOffcanvas(true);
+                        }, 500);
                       }}
                     >
                       Login
                     </span>
                   </p>
+
                 </form>
               </div>
+
             </div>
           </div>
         </div>
@@ -292,6 +342,7 @@ function Header() {
           onClick={() => setShowOffcanvas(false)}
         ></div>
       )}
+
     </div>
   );
 }
