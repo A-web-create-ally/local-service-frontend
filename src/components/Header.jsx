@@ -5,11 +5,21 @@ import { Link } from "react-router-dom";
 import logo from '../assets/img/logo.png';
 import '../assets/styles/login.css';
 
+import { loginUser, logout } from "../features/auth/authslic";
+
 function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
-  const [isClosingModal, setIsClosingModal] = useState(false);
+
+  // 👉 Login State
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // 👉 Redux Auth State
+  const { loading, token, error } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     const headerSticky = () => {
@@ -25,13 +35,48 @@ function Header() {
     return () => window.removeEventListener("scroll", headerSticky);
   }, []);
 
-  const closeSignupModal = () => {
-    setIsClosingModal(true);
+  // 👉 Login Submit
+  const handleLogin = async (e) => {
 
-    setTimeout(() => {
-      setShowSignupModal(false);
-      setIsClosingModal(false);
-    }, 500);
+    e.preventDefault();
+
+    const result = await dispatch(
+      loginUser({
+        email,
+        password,
+      })
+    );
+
+    if (result.payload?.success) {
+
+      setSuccessMessage("Login Successful ✅");
+
+      localStorage.setItem("token", result.payload.token);
+
+      setEmail("");
+      setPassword("");
+
+      setTimeout(() => {
+
+        setShowOffcanvas(false);
+
+      }, 1500);
+
+    }
+
+  };
+
+  // 👉 Logout
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+
+    dispatch(logout());
+
+    setShowOffcanvas(false);
+
+    navigate("/");
+
   };
 
   return (
@@ -68,23 +113,34 @@ function Header() {
             {/* Sign In */}
             <button
               className="cta-btn border-0"
-              onClick={() => {
-                setIsClosingModal(false);
-                setShowSignupModal(true);
-              }}
+              onClick={() => setShowSignupModal(true)}
             >
               Sign In
             </button>
 
-            {/* Login */}
-            <button
-              className="cta-btn border-0"
-              onClick={() => setShowOffcanvas(true)}
-            >
-              Login
-            </button>
+            {/* Login / Logout */}
+            {token ? (
+
+              <button
+                className="cta-btn border-0"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+
+            ) : (
+
+              <button
+                className="cta-btn border-0"
+                onClick={() => setShowOffcanvas(true)}
+              >
+                Login
+              </button>
+
+            )}
 
           </div>
+
         </div>
       </header>
 
@@ -201,12 +257,13 @@ function Header() {
 
               {/* Modal Body */}
               <div className="modal-body p-4 p-md-5">
+
                 <form>
 
-                  <div className="row">
+  <div className="row">
 
-                    {/* Full Name */}
                     <div className="col-md-6 mb-3">
+
                       <label className="form-label fw-semibold">
                         Full Name
                       </label>
@@ -216,10 +273,11 @@ function Header() {
                         className="form-control"
                         placeholder="Enter your full name"
                       />
+
                     </div>
 
-                    {/* Email */}
                     <div className="col-md-6 mb-3">
+
                       <label className="form-label fw-semibold">
                         Email Address
                       </label>
@@ -229,10 +287,11 @@ function Header() {
                         className="form-control"
                         placeholder="Enter your email"
                       />
+
                     </div>
 
-                    {/* Phone */}
                     <div className="col-md-6 mb-3">
+
                       <label className="form-label fw-semibold">
                         Phone Number
                       </label>
@@ -242,10 +301,11 @@ function Header() {
                         className="form-control"
                         placeholder="Enter your phone number"
                       />
+
                     </div>
 
-                    {/* Address */}
                     <div className="col-md-6 mb-3">
+
                       <label className="form-label fw-semibold">
                         Address
                       </label>
@@ -255,10 +315,11 @@ function Header() {
                         className="form-control"
                         placeholder="Enter your address"
                       />
+
                     </div>
 
-                    {/* Password */}
                     <div className="col-md-6 mb-3">
+
                       <label className="form-label fw-semibold">
                         Password
                       </label>
@@ -268,10 +329,11 @@ function Header() {
                         className="form-control"
                         placeholder="Create password"
                       />
+
                     </div>
 
-                    {/* Confirm Password */}
                     <div className="col-md-6 mb-3">
+
                       <label className="form-label fw-semibold">
                         Confirm Password
                       </label>
@@ -281,12 +343,14 @@ function Header() {
                         className="form-control"
                         placeholder="Confirm password"
                       />
+
                     </div>
 
-                  </div>
+  </div>
 
                   {/* Terms */}
                   <div className="form-check mb-4">
+
                     <input
                       className="form-check-input"
                       type="checkbox"
@@ -299,35 +363,41 @@ function Header() {
                     >
                       I agree to the Terms & Conditions and Privacy Policy.
                     </label>
+
                   </div>
 
                   {/* Submit */}
                   <button
                     type="submit"
-                    className="signup-submit-btn btn w-100 py-2 fw-bold rounded-3 text-white"
+                    className="btn w-100 py-2 fw-bold rounded-3 text-white"
+                    style={{
+                      background: "linear-gradient(135deg, #ff4a17, #ff4a17)",
+                      border: "none",
+                    }}
                   >
                     Create Account
                   </button>
 
                   {/* Footer */}
                   <p className="text-center mt-3 mb-0 text-muted">
+
                     Already have an account?{" "}
 
                     <span
-                      className="text-primary fw-semibold signup-login-link"
+                      className="text-primary fw-semibold"
+                      style={{ cursor: "pointer" }}
                       onClick={() => {
-                        closeSignupModal();
-
-                        setTimeout(() => {
-                          setShowOffcanvas(true);
-                        }, 500);
+                        setShowSignupModal(false);
+                        setShowOffcanvas(true);
                       }}
                     >
                       Login
                     </span>
+
                   </p>
 
                 </form>
+
               </div>
 
             </div>

@@ -101,7 +101,11 @@
   border: none;
 }
 
-
+.bi.bi-person-circle{
+            font-Size: 2rem;
+            color:var(--accent-color);
+            cursor: pointer;
+}
 
 @keyframes fadeUp {
   from {

@@ -75,7 +75,7 @@ const FiltersSidebar = ({
             type="range" 
             className="form-range range-slider"
             min="100" 
-            max="5000" 
+            max="9000" 
             value={price}
             onChange={(e) => onPriceChange(Number(e.target.value))}
           />
@@ -84,7 +84,7 @@ const FiltersSidebar = ({
             <span className="fw-bold" >
               ₹{price}
             </span>
-            <span>₹5000</span>
+            <span>₹9000</span>
           </div>
         </div>
 
