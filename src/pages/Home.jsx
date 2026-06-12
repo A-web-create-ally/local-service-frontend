@@ -1,34 +1,35 @@
+
 import "swiper/css";
 import "swiper/css/pagination";
-import heroBg from "../assets/img/hero-bg.jpg";
-import spa from "../assets/img/spa.jpg";
-import Footer from "../components/Footer.jsx";
-import Header from "../components/Header.jsx";
-import About from "./About";
-import Portfolio from "./portfolio.jsx";
-import Service from "./Services.jsx";
-import Contact from "./Contact.jsx";
-import hero from "../assets/img/photo1.avif"
-import LogIn from "./logIn.jsx";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
-import service1 from "../assets/img/services-1.jpg"
-import service2 from "../assets/img/services-2.jpg"
-import service3 from "../assets/img/services-3.jpg"
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
+
+import Portfolio from "./portfolio.jsx";
+
+
+import spa from "../assets/img/spa.jpg";
+
+
 import testBg from "../assets/img/testimonials-bg.jpg";
+
 import t1 from "../assets/img/testimonials/testimonials-1.jpg";
 import t2 from "../assets/img/testimonials/testimonials-2.jpg";
 import t3 from "../assets/img/testimonials/testimonials-3.jpg";
 import t4 from "../assets/img/testimonials/testimonials-4.jpg";
 import t5 from "../assets/img/testimonials/testimonials-5.jpg";
-import working1 from "../assets/img/working-1.jpg";
+
 import client1 from "../assets/img/clients/client-1.png";
 import client2 from "../assets/img/clients/client-2.png";
 import client3 from "../assets/img/clients/client-3.png";
 import client4 from "../assets/img/clients/client-4.png";
 import client5 from "../assets/img/clients/client-5.png";
 import client6 from "../assets/img/clients/client-6.png";
+
+
 import plumbing from "../assets/img/plumbing.jpg";
 import electrical from "../assets/img/electrical.jpg";
 import carpenter from "../assets/img/carpenter.webp";

@@ -1,129 +1,88 @@
-import { useState } from "react";
+
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Hero from "../pages/hero";
 
-import useServicesData from "../hooks/useServicesData";
 import SearchHero from "../components/service/SearchHero";
 import FiltersSidebar from "../components/service/FiltersSidebar";
 import ServicesGrid from "../components/service/ServicesGrid";
 import ServicesHeader from "../components/service/ServicesHeader";
-import { fetchServices } from "../features/service/serviceslice";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  fetchServices,
+  setSearch,
+  setCategory,
+  setMaxPrice,
+  setSortBy,
+  setRatingFilters,
+  setAvailabilityFilters,
+  clearFilters,
+  applyFilters,
+} from "../features/service/serviceslice";
 
 const ServicesDetails = () => {
 
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
-  // 👉 Redux State
+  // REDUX STATE
   const {
-    data: servicesData,
+    data,
+    filteredServices,
     loading,
     error,
+    filters,
   } = useSelector((state) => state.services);
-  console.log(servicesData);
 
-  // 👉 API Call
+  // FETCH SERVICES
   useEffect(() => {
+
     dispatch(fetchServices());
+
   }, [dispatch]);
 
-  // 👉 Backend Data Compatible For UI
-  const allServices = (servicesData || []).map((item) => ({
+  // APPLY FILTERS
+  useEffect(() => {
+
+    dispatch(applyFilters());
+
+  }, [filters, dispatch]);
+
+  // SERVICES
+  const allServices = (data || []).map((item) => ({
     ...item,
     id: item._id,
   }));
 
-  // 👉 Filter Helper
- // const { applyFilters } = useServicesData();
-
-  // 👉 Dynamic Cities
-  // const cityOptions = [
-  //   "All Cities",
-  //   ...new Set(allServices.map((service) => service.location)),
-  // ];
-
-  // 👉 Dynamic Categories
+  // CATEGORIES
   const categories = [
-    "All Categories",
+    "All",
     ...new Set(allServices.map((service) => service.category)),
   ];
-
-  // 👉 State Management
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [price, setPrice] = useState(9000);
-
-  const [debouncedPrice, setDebouncedPrice] = useState(9000);
-
-  const [category, setCategory] = useState("All");
-
-  const [location, setLocation] = useState("All Cities");
-  const [ratingFilters, setRatingFilters] = useState({
-    rating5: false,
-    rating4: false,
-    rating3: false,
-  });
-  const [availabilityFilters, setAvailabilityFilters] = useState({
-    today: false,
-    week: false,
-  });
-  const [sortBy, setSortBy] = useState("Recommended");
-  const [loading, setLoading] = useState(false);
-
-  // 👉 Filter Logic
-  // const filteredServices = applyFilters({
-  //   allServices,
-  //   searchQuery,
-  //   price,
-  //   category,
-  //   location,
-  //   ratingFilters,
-  //   availabilityFilters,
-  //   sortBy,
-  // });
-
-  // 👉 Clear Filters
-  const clearFilters = () => {
-
-    setSearchQuery("");
-   // setLocation("All Cities");
-    setCategory("All Categories");
-    setPrice(2500);
-
-    setRatingFilters({
-      rating5: true,
-      rating4: true,
-      rating3: false,
-    });
-
-    setAvailabilityFilters({
-      today: true,
-      week: false,
-    });
-
-    setSortBy("Recommended");
-  };
-
-  // 👉 Search
-  const handleSearch = () => {
-    setLoading(true);
-    setTimeout(() => setLoading(false), 300);
-  };
 
   return (
     <>
       <Header />
+
       <Hero />
 
       <div className="container py-5">
+
         {error && (
-  <div className="alert alert-danger">
-    {error}
-  </div>
-)}
+          <div className="alert alert-danger">
+            {error}
+          </div>
+        )}
+
+        {/* BACK BUTTON */}
         <div className="mb-4">
+
           <button
             className="btn btn-outline-secondary"
             onClick={() => navigate('/')}
@@ -134,69 +93,89 @@ const ServicesDetails = () => {
 
         </div>
 
+        {/* SEARCH HERO */}
         <SearchHero
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          onSearch={handleSearch}
-          location={location}
-         // servicesCount={filteredServices.length}
+          searchQuery={filters.search}
+          setSearchQuery={(value) =>
+            dispatch(setSearch(value))
+          }
+          location="All Cities"
+          servicesCount={filteredServices.length}
         />
 
         <div className="row g-4">
 
           {/* SIDEBAR */}
           <FiltersSidebar
-            //cityOptions={cityOptions}
+
             categories={categories}
 
-            price={price}
+            price={filters.maxPrice}
 
-            category={category}
+            category={filters.category}
 
-            location={location}
+            location="All Cities"
 
-            ratingFilters={ratingFilters}
+            ratingFilters={filters.ratingFilters}
 
-            availabilityFilters={availabilityFilters}
+            availabilityFilters={filters.availabilityFilters}
 
-            sortBy={sortBy}
-           // servicesCount={filteredServices.length}
-            onPriceChange={setPrice}
+            servicesCount={filteredServices.length}
 
-            onCategoryChange={setCategory}
+            onPriceChange={(value) =>
+              dispatch(setMaxPrice(value))
+            }
 
-            onLocationChange={setLocation}
+            onCategoryChange={(value) =>
+              dispatch(setCategory(value))
+            }
 
-            onRatingChange={setRatingFilters}
+            onSortChange={(value) =>
+              dispatch(setSortBy(value))
+            }
 
-            onAvailabilityChange={setAvailabilityFilters}
+            onRatingChange={(value) =>
+              dispatch(setRatingFilters(value))
+            }
 
-            onSortChange={setSortBy}
+            onAvailabilityChange={(value) =>
+              dispatch(setAvailabilityFilters(value))
+            }
 
-            onClearFilters={clearFilters}
+            onClearFilters={() =>
+              dispatch(clearFilters())
+            }
           />
 
           {/* SERVICES */}
           <div className="col-lg-9">
 
             <ServicesHeader
-              searchQuery={searchQuery}
 
-              location={location}
-             // servicesCount={filteredServices.length}
-              sortBy={sortBy}
+              searchQuery={filters.search}
 
-              onSortChange={setSortBy}
+              location="All Cities"
+
+              servicesCount={filteredServices.length}
+
+              sortBy={filters.sortBy}
+
+              onSortChange={(value) =>
+                dispatch(setSortBy(value))
+              }
             />
 
             <ServicesGrid
-             // services={filteredServices}
-              services={allServices}
+
+              services={filteredServices}
+
               loading={loading}
 
-              searchQuery={searchQuery}
+              searchQuery={filters.search}
 
-              onClearFilters={clearFilters}
+              onClearFilters={() =>
+                dispatch(clearFilters())
+              }
 
               navigate={navigate}
             />
@@ -213,3 +192,4 @@ const ServicesDetails = () => {
 };
 
 export default ServicesDetails;
+

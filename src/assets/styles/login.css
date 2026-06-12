@@ -259,3 +259,32 @@
   outline: none !important;
   box-shadow: none !important;
 }
+/* LOGOUT BUTTON */
+.btn-danger {
+  background: linear-gradient(135deg, #e2860f, #e0620d);
+  border: none;
+
+  padding: 10px 24px;
+
+  border-radius: 50px;
+
+  font-weight: 600;
+
+  color: white;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #e2860f, #e0620d);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 18px rgba(220, 53, 69, 0.4);
+}
+
+.btn-danger:active {
+  transform: scale(0.98);
+}

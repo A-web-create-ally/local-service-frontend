@@ -2590,17 +2590,68 @@ textarea.form-input-custom{
 
 }
 
-/* Overlay */
-.custom-alert-overlay {
+
+
+.custom-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
+
   width: 100%;
-  height: 100vh;
+  height: 100%;
+
   background: rgba(0, 0, 0, 0.5);
 
   display: flex;
+  align-items: center;
   justify-content: center;
+
+  z-index: 9999;
+}
+
+.custom-popup {
+  background: #fff;
+
+  width: 350px;
+
+  padding: 30px;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  animation: popupShow 0.3s ease;
+}
+
+@keyframes popupShow {
+
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.booking-overlay {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+
+  justify-content: center;
+
   align-items: center;
 
   z-index: 9999;
@@ -2608,49 +2659,127 @@ textarea.form-input-custom{
   animation: fadeIn 0.3s ease;
 }
 
-/* Alert Box */
-.custom-alert-box {
-  width: 320px;
-  background: #fff;
-  padding: 30px 20px;
-  border-radius: 16px;
+.booking-popup {
+
+  width: 90%;
+  max-width: 450px;
+
+  background: white;
+
+  border-radius: 25px;
+
+  padding: 35px;
+
+  position: relative;
+
+  animation: popupAnimation 0.4s ease;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.booking-close {
+
+  position: absolute;
+
+  top: 15px;
+  right: 18px;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 28px;
+
+  cursor: pointer;
+}
+
+.booking-title {
+
+  font-weight: 700;
+
+  margin-bottom: 5px;
+
+  text-align: center;
+}
+
+.booking-subtitle {
+
+  color: gray;
+
   text-align: center;
 
-  animation: popup 0.4s ease;
-
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  margin-bottom: 25px;
 }
 
-.alert-icon {
-  font-size: 50px;
-  color: #ff4d4f;
+.booking-input {
+
+  width: 100%;
+
   margin-bottom: 15px;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  border: 1px solid #ddd;
+
+  outline: none;
+
+  transition: 0.3s;
 }
 
-.custom-alert-box h5 {
+.booking-input:focus {
+
+  border-color: #0d6efd;
+
+  box-shadow: 0 0 10px rgba(13,110,253,0.15);
+}
+
+.booking-btn {
+
+  width: 100%;
+
+  border: none;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+
+  color: white;
+
   font-weight: 700;
-  margin-bottom: 10px;
+
+  transition: 0.3s;
 }
 
-.custom-alert-box p {
-  color: #666;
-  margin-bottom: 15px;
+.booking-btn:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 20px rgba(13,110,253,0.25);
 }
 
-/* Animations */
-@keyframes popup {
-  0% {
-    transform: scale(0.7);
+@keyframes popupAnimation {
+
+  from {
+
+    transform: scale(0.7) translateY(40px);
+
     opacity: 0;
   }
 
-  100% {
-    transform: scale(1);
+  to {
+
+    transform: scale(1) translateY(0);
+
     opacity: 1;
   }
 }
 
 @keyframes fadeIn {
+
   from {
     opacity: 0;
   }
@@ -2659,3 +2788,4 @@ textarea.form-input-custom{
     opacity: 1;
   }
 }
+
