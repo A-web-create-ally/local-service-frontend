@@ -1271,6 +1271,7 @@ section,
 .features .nav-link i {
   padding-right: 15px;
   font-size: 48px;
+  color: var(--accent-color);
 }
 
 .features .nav-link h4 {
@@ -1291,6 +1292,10 @@ section,
 }
 
 .features .nav-link.active h4 {
+  color: var(--contrast-color);
+}
+
+.features .nav-link.active i {
   color: var(--contrast-color);
 }
 

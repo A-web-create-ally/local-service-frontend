@@ -149,7 +149,7 @@ const Home = () => {
         </div>
         <div className="details position-relative">
           <div className="icon">
-            <i className="bi bi-hammer"></i>
+            <i className="bi bi-house-heart"></i>
           </div>
           <a href="service-details.html" className="stretched-link">
             <h3>Home Cleaning</h3>
@@ -165,7 +165,7 @@ const Home = () => {
         </div>
         <div className="details position-relative">
           <div className="icon">
-            <i className="bi bi-hammer"></i>
+            <i class="bi bi-flower1"></i>
           </div>
           <a href="service-details.html" className="stretched-link">
             <h3>Spa Ayurveda</h3>

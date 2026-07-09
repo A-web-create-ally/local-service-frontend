@@ -315,6 +315,7 @@ function Service(){
             <i className="bi bi-star-fill"></i>
             <i className="bi bi-star-fill"></i>
             <i className="bi bi-star-fill"></i>
+            
           </div>
           <p>
             <i className="bi bi-quote quote-icon-left"></i>
@@ -381,6 +382,7 @@ function Service(){
             <i className="bi bi-star-fill"></i>
             <i className="bi bi-star-fill"></i>
             <i className="bi bi-star-fill"></i>
+           
           </div>
           <p>
             <i className="bi bi-quote quote-icon-left"></i>
