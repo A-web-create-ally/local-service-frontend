@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,13 +19,15 @@ import {
   setCategory,
   setMaxPrice,
   setSortBy,
-  setRatingFilters,
-  setAvailabilityFilters,
+  setRating,
+  setAvailable,
   clearFilters,
-  applyFilters,
 } from "../features/service/serviceslice";
 
+// const [page,setPage] = useState(1);
 const ServicesDetails = () => {
+
+  const [page,setPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -33,26 +35,45 @@ const ServicesDetails = () => {
 
   // REDUX STATE
   const {
-    data,
-    filteredServices,
-    loading,
-    error,
-    filters,
-  } = useSelector((state) => state.services);
+        data,
+        totalServices,
+        loading,
+        error,
+        filters,
+        currentPage,
+        totalPages,
+      } = useSelector((state) => state.services);
 
   // FETCH SERVICES
   useEffect(() => {
+    dispatch(
+        fetchServices({
+            page,
+            limit: 5,
+            ...filters,
+        })
+    );
+}, [dispatch, page, filters]);
+    //   useEffect(()=>{
 
-    dispatch(fetchServices());
+    // dispatch(fetchServices({
+    // page,
+    // limit:5,
+    // }));
 
-  }, [dispatch]);
+    // },[dispatch,page]);
+  // useEffect(() => {
+
+  //   dispatch(fetchServices());
+
+  // }, [dispatch]);
 
   // APPLY FILTERS
-  useEffect(() => {
+  // useEffect(() => {
 
-    dispatch(applyFilters());
+  //   dispatch(applyFilters());
 
-  }, [filters, dispatch]);
+  // }, [filters, data, dispatch]);
 
   // SERVICES
   const allServices = (data || []).map((item) => ({
@@ -100,7 +121,7 @@ const ServicesDetails = () => {
             dispatch(setSearch(value))
           }
           location="All Cities"
-          servicesCount={filteredServices.length}
+          servicesCount={totalServices}
         />
 
         <div className="row g-4">
@@ -116,11 +137,11 @@ const ServicesDetails = () => {
 
             location="All Cities"
 
-            ratingFilters={filters.ratingFilters}
+            rating={filters.rating}
+            
+            available={filters.available}
 
-            availabilityFilters={filters.availabilityFilters}
-
-            servicesCount={filteredServices.length}
+            servicesCount={data.length}
 
             onPriceChange={(value) =>
               dispatch(setMaxPrice(value))
@@ -135,11 +156,11 @@ const ServicesDetails = () => {
             }
 
             onRatingChange={(value) =>
-              dispatch(setRatingFilters(value))
+              dispatch(setRating(value))
             }
 
             onAvailabilityChange={(value) =>
-              dispatch(setAvailabilityFilters(value))
+             dispatch(setAvailable(value))
             }
 
             onClearFilters={() =>
@@ -156,7 +177,7 @@ const ServicesDetails = () => {
 
               location="All Cities"
 
-              servicesCount={filteredServices.length}
+              servicesCount={data.length}
 
               sortBy={filters.sortBy}
 
@@ -166,19 +187,42 @@ const ServicesDetails = () => {
             />
 
             <ServicesGrid
-
-              services={filteredServices}
-
+              services={data}
               loading={loading}
-
               searchQuery={filters.search}
-
-              onClearFilters={() =>
-                dispatch(clearFilters())
-              }
-
-              navigate={navigate}
+              onClearFilters={() => dispatch(clearFilters())}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPrevious={() => setPage((prev) => prev - 1)}
+              onNext={() => setPage((prev) => prev + 1)}
+              onPageChange={(pageNumber) => setPage(pageNumber)}
             />
+
+            {/* <div className="d-flex justify-content-center mt-4">
+
+            <button
+            className="btn btn-outline-primary me-2"
+            disabled={currentPage===1}
+            onClick={()=>setPage(page-1)}
+            >
+            Previous
+            </button>
+
+            <span className="align-self-center">
+
+            Page {currentPage} of {totalPages}
+
+            </span>
+
+            <button
+            className="btn btn-outline-primary ms-2"
+            disabled={currentPage===totalPages}
+            onClick={()=>setPage(page+1)}
+            >
+            Next
+            </button>
+
+            </div> */}
 
           </div>
 

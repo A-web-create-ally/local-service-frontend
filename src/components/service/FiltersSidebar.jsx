@@ -4,8 +4,8 @@ const FiltersSidebar = ({
   price,
   category,
   location,
-  ratingFilters,
-  availabilityFilters,
+  rating,
+  available,
   servicesCount,
   onPriceChange,
   onCategoryChange,
@@ -16,21 +16,6 @@ const FiltersSidebar = ({
   onClearFilters
 }) => {
 
-  const handleRatingChange = (rating) => {
-
-    onRatingChange({
-      ...ratingFilters,
-      [rating]: !ratingFilters[rating]
-    });
-  };
-
-  const handleAvailabilityChange = (availability) => {
-
-    onAvailabilityChange({
-      ...availabilityFilters,
-      [availability]: !availabilityFilters[availability]
-    });
-  };
 
   return (
 
@@ -115,15 +100,10 @@ const FiltersSidebar = ({
             <div className="form-check">
 
               <input
-                className="form-check-input"
-                type="checkbox"
-                id="rating5"
-                checked={ratingFilters?.rating5}
-                onChange={() =>
-                  handleRatingChange("rating5")
-                }
+                  type="radio"
+                  checked={rating === 5}
+                  onChange={() => onRatingChange(5)}
               />
-
               <label
                 className="form-check-label small"
                 htmlFor="rating5"
@@ -136,13 +116,9 @@ const FiltersSidebar = ({
             <div className="form-check">
 
               <input
-                className="form-check-input"
-                type="checkbox"
-                id="rating4"
-                checked={ratingFilters?.rating4}
-                onChange={() =>
-                  handleRatingChange("rating4")
-                }
+                type="radio"
+                checked={rating === 4}
+                onChange={() => onRatingChange(4)}
               />
 
               <label
@@ -157,13 +133,9 @@ const FiltersSidebar = ({
             <div className="form-check">
 
               <input
-                className="form-check-input"
-                type="checkbox"
-                id="rating3"
-                checked={ratingFilters?.rating3}
-                onChange={() =>
-                  handleRatingChange("rating3")
-                }
+                  type="radio"
+                  checked={rating === 3}
+                  onChange={() => onRatingChange(3)}
               />
 
               <label
@@ -194,9 +166,9 @@ const FiltersSidebar = ({
                 className="form-check-input"
                 type="checkbox"
                 id="today"
-                checked={availabilityFilters?.today}
-                onChange={() =>
-                  handleAvailabilityChange("today")
+                checked={available}
+                onChange={(e)=>
+                onAvailabilityChange(e.target.checked)
                 }
               />
 
@@ -209,7 +181,7 @@ const FiltersSidebar = ({
 
             </div>
 
-            <div className="form-check">
+            {/* <div className="form-check">
 
               <input
                 className="form-check-input"
@@ -228,7 +200,7 @@ const FiltersSidebar = ({
                 This Week
               </label>
 
-            </div>
+            </div> */}
 
           </div>
 
@@ -243,14 +215,6 @@ const FiltersSidebar = ({
           >
             <i className="fa fa-trash me-2"></i>
             Clear All
-          </button>
-
-          <button className="btn btn-primary w-100">
-
-            <i className="fa fa-check me-2"></i>
-
-            Apply Filters ({servicesCount})
-
           </button>
 
         </div>

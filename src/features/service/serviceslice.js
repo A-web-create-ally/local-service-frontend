@@ -11,15 +11,39 @@ export const fetchServices = createAsyncThunk(
   async (filters = {}, thunkAPI) => {
     try {
 
-      const res = await axios.post(
+      // const res = await axios.post(
+      //   `${API_URL}/service/getAllServices`,
+      //   {
+      //     page: filters.page || 1,
+      //     limit: filters.limit || 20,
+      //   }
+      // );
+            const res = await axios.post(
         `${API_URL}/service/getAllServices`,
         {
           page: filters.page || 1,
-          limit: filters.limit || 20,
+          limit: filters.limit || 5,
+
+          search: filters.search || "",
+
+          category:
+            filters.category && filters.category !== "All"
+              ? filters.category
+              : undefined,
+
+          maxPrice: filters.maxPrice,
+
+          rating:
+            filters.rating || undefined,
+
+          available:
+            filters.available || false,
+
+          sortBy: filters.sortBy || "Recommended",  
         }
       );
 
-      return res.data.services;
+      return res.data;
 
     } catch (error) {
 
@@ -37,27 +61,41 @@ const serviceSlice = createSlice({
 
   initialState: {
     data: [],
-    filteredServices: [],
+    //filteredServices: [],
     loading: false,
     error: null,
 
-    filters: {
-      search: "",
-      category: "All",
-      maxPrice: 9000,
-      sortBy: "Recommended",
+    currentPage: 1,
+    totalPages: 1,
+    totalServices: 0,
 
-      ratingFilters: {
-        rating5: false,
-        rating4: false,
-        rating3: false,
-      },
+    // filters: {
+    //   search: "",
+    //   category: "All",
+    //   maxPrice: 9000,
+    //   sortBy: "Recommended",
 
-      availabilityFilters: {
-        today: false,
-        week: false,
-      },
-    },
+    //   ratingFilters: {
+    //     rating5: false,
+    //     rating4: false,
+    //     rating3: false,
+    //   },
+
+    //   availabilityFilters: {
+    //     today: false,
+    //     week: false,
+    //   },
+    // },
+       filters: {
+        search: "",
+        category: "All",
+        maxPrice: 9000,
+        sortBy: "Recommended",
+
+        rating: null,
+
+        available: false,
+    },  
   },
 
   reducers: {
@@ -83,134 +121,149 @@ const serviceSlice = createSlice({
     },
 
     // RATING
-    setRatingFilters: (state, action) => {
-      state.filters.ratingFilters = action.payload;
-    },
+    // setRatingFilters: (state, action) => {
+    //   state.filters.ratingFilters = action.payload;
+    // },
 
     // AVAILABILITY
-    setAvailabilityFilters: (state, action) => {
-      state.filters.availabilityFilters = action.payload;
+    // setAvailabilityFilters: (state, action) => {
+    //   state.filters.availabilityFilters = action.payload;
+    // },
+    setRating: (state, action) => {
+      state.filters.rating = action.payload;
+    },
+
+    setAvailable: (state, action) => {
+      state.filters.available = action.payload;
     },
 
     // CLEAR FILTERS
     clearFilters: (state) => {
 
-      state.filters = {
+    state.filters = {
+    search: "",
+    category: "All",
+    maxPrice: 9000,
+    sortBy: "Recommended",
+    rating: null,
+    available: false,
+    };
+      // state.filters = {
 
-        search: "",
-        category: "All",
-        maxPrice: 9000,
-        sortBy: "Recommended",
+      //   search: "",
+      //   category: "All",
+      //   maxPrice: 9000,
+      //   sortBy: "Recommended",
 
-        ratingFilters: {
-          rating5: false,
-          rating4: false,
-          rating3: false,
-        },
+      //   ratingFilters: {
+      //     rating5: false,
+      //     rating4: false,
+      //     rating3: false,
+      //   },
 
-        availabilityFilters: {
-          today: false,
-          week: false,
-        },
-      };
+      //   availabilityFilters: {
+      //     today: false,
+      //     week: false,
+      //   },
+      // };
 
-      state.filteredServices = state.data;
+      // state.filteredServices = state.data;
     },
 
     // APPLY FILTERS
-    applyFilters: (state) => {
+    // applyFilters: (state) => {
 
-      let filtered = [...state.data];
+    //   let filtered = [...state.data];
 
-      // SEARCH
-      if (state.filters.search) {
+    //   // SEARCH
+    //   if (state.filters.search) {
 
-        filtered = filtered.filter((service) =>
-          service.title
-            ?.toLowerCase()
-            .includes(state.filters.search.toLowerCase())
-        );
-      }
+    //     filtered = filtered.filter((service) =>
+    //       service.title
+    //         ?.toLowerCase()
+    //         .includes(state.filters.search.toLowerCase())
+    //     );
+    //   }
 
-      // CATEGORY
-      if (state.filters.category !== "All") {
+    //   // CATEGORY
+    //   if (state.filters.category !== "All") {
 
-        filtered = filtered.filter(
-          (service) =>
-            service.category === state.filters.category
-        );
-      }
+    //     filtered = filtered.filter(
+    //       (service) =>
+    //         service.category === state.filters.category
+    //     );
+    //   }
 
-      // PRICE
-      filtered = filtered.filter(
-        (service) =>
-          Number(service.price) <= state.filters.maxPrice
-      );
+    //   // PRICE
+    //   filtered = filtered.filter(
+    //     (service) =>
+    //       Number(service.price) <= state.filters.maxPrice
+    //   );
 
-      // RATING
-      const {
-        rating5,
-        rating4,
-        rating3,
-      } = state.filters.ratingFilters;
+    //   // RATING
+    //   const {
+    //     rating5,
+    //     rating4,
+    //     rating3,
+    //   } = state.filters.ratingFilters;
 
-      if (rating5 || rating4 || rating3) {
+    //   if (rating5 || rating4 || rating3) {
 
-        filtered = filtered.filter((service) => {
+    //     filtered = filtered.filter((service) => {
 
-          const rating = Number(service.rating || 0);
+    //       const rating = Number(service.rating || 0);
 
-          if (rating5 && rating >= 5) {
-            return true;
-          }
+    //       if (rating5 && rating >= 5) {
+    //         return true;
+    //       }
 
-          if (rating4 && rating >= 4) {
-            return true;
-          }
+    //       if (rating4 && rating >= 4) {
+    //         return true;
+    //       }
 
-          if (rating3 && rating >= 3) {
-            return true;
-          }
+    //       if (rating3 && rating >= 3) {
+    //         return true;
+    //       }
 
-          return false;
-        });
-      }
+    //       return false;
+    //     });
+    //   }
 
-      // AVAILABILITY
-      const {
-        today,
-        week,
-      } = state.filters.availabilityFilters;
+    //   // AVAILABILITY
+    //   const {
+    //     today,
+    //     week,
+    //   } = state.filters.availabilityFilters;
 
-      if (today || week) {
+    //   if (today || week) {
 
-        filtered = filtered.filter((service) => {
+    //     filtered = filtered.filter((service) => {
 
-          if (today && service.availableToday) {
-            return true;
-          }
+    //       if (today && service.availableToday) {
+    //         return true;
+    //       }
 
-          if (week && service.availableThisWeek) {
-            return true;
-          }
+    //       if (week && service.availableThisWeek) {
+    //         return true;
+    //       }
 
-          return false;
-        });
-      }
+    //       return false;
+    //     });
+    //   }
 
-      // SORTING
-      if (state.filters.sortBy === "Price: Low to High") {
+    //   // SORTING
+    //   if (state.filters.sortBy === "Price: Low to High") {
 
-        filtered.sort((a, b) => a.price - b.price);
-      }
+    //     filtered.sort((a, b) => a.price - b.price);
+    //   }
 
-      if (state.filters.sortBy === "Price: High to Low") {
+    //   if (state.filters.sortBy === "Price: High to Low") {
 
-        filtered.sort((a, b) => b.price - a.price);
-      }
+    //     filtered.sort((a, b) => b.price - a.price);
+    //   }
 
-      state.filteredServices = filtered;
-    },
+    //   state.filteredServices = filtered;
+    // },
   },
 
   extraReducers: (builder) => {
@@ -226,12 +279,27 @@ const serviceSlice = createSlice({
       // SUCCESS
       .addCase(fetchServices.fulfilled, (state, action) => {
 
-        state.loading = false;
+          state.loading = false;
 
-        state.data = action.payload;
+          state.data = action.payload.services;
 
-        state.filteredServices = action.payload;
+          //state.filteredServices = action.payload.services;
+
+          state.currentPage = action.payload.currentPage;
+
+          state.totalPages = action.payload.totalPages;
+
+          state.totalServices = action.payload.totalServices;
+
       })
+      // .addCase(fetchServices.fulfilled, (state, action) => {
+
+      //   state.loading = false;
+
+      //   state.data = action.payload;
+
+      //   state.filteredServices = action.payload;
+      // })
 
       // ERROR
       .addCase(fetchServices.rejected, (state, action) => {
@@ -249,10 +317,9 @@ export const {
   setCategory,
   setMaxPrice,
   setSortBy,
-  setRatingFilters,
-  setAvailabilityFilters,
+  setRating,
+  setAvailable,
   clearFilters,
-  applyFilters,
 } = serviceSlice.actions;
 
 export default serviceSlice.reducer;
