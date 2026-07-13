@@ -247,15 +247,21 @@ body.mobile-nav-active .navmenu ul {
   z-index: 997;
   /*background: transparent;*/
   background-color: #000910;
+  
 }
 
 .header .logo {
   line-height: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .header .logo img {
-  max-height: 36px;
+  max-height: 46px !important; 
+  width: auto;
   margin-right: 8px;
+  display: block;
 }
 
 .header .logo h1 {
@@ -2794,3 +2800,27 @@ textarea.form-input-custom{
   }
 }
 
+/* --- ONLY CODES FOR PERFECT ALIGNMENT --- */
+.header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 20px 40px !important; /* Spacing from left and right edges */
+}
+
+@media (min-width: 1200px) {
+  /* Agar layout ke andar .container element hai toh use full width karein */
+  .header .container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Isse HOME, SERVICES links bilkul center ho jayenge */
+  .navmenu {
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+}
