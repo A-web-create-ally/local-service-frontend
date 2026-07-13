@@ -91,7 +91,7 @@ const ServicesDetails = () => {
     <>
       <Header />
 
-      <Hero />
+      {/* <Hero /> */}
 
       <div className="container py-5">
 

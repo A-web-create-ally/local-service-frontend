@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getMyBookings } from "../features/bookingSlice";
+import Footer from "../components/Footer.jsx";
+import Header from "../components/Header.jsx";
 
 const BookingPage = () => {
 
@@ -19,7 +21,8 @@ const BookingPage = () => {
   }, [dispatch]);
 
   return (
-
+  <>
+  <Header />
     <div className="container py-5">
 
       {/* HEADER */}
@@ -190,6 +193,8 @@ const BookingPage = () => {
       )}
 
     </div>
+    <Footer />
+  </>
   );
 };
 
