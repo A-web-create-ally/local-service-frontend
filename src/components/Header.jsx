@@ -12,7 +12,7 @@ import logo from '../assets/img/justbook-logo.png';
 
 import '../assets/styles/login.css';
 
-import {loginUser,logout} from "../features/auth/authslic";
+import { loginUser, logout } from "../features/auth/authslic";
 
 function Header() {
 
@@ -34,9 +34,11 @@ function Header() {
   const [showSignupModal, setShowSignupModal] = useState(false);
 
   const [isClosingModal, setIsClosingModal] = useState(false);
-// const [showLoginPassword, setShowLoginPassword] = useState(false);
-//const [showSignupPassword, setShowSignupPassword] = useState(false);
-//const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // Login password ke liye state
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+
+  // Sign-In (Create aur Confirm dono ke liye) state
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 
   // LOGIN STATE
   const [loginData, setLoginData] = useState({
@@ -45,9 +47,9 @@ function Header() {
   });
 
   const [signupData, setSignupData] = useState({
-  password: "",
-  confirmPassword: "",
-});
+    password: "",
+    confirmPassword: "",
+  });
 
   // HEADER SCROLL
   useEffect(() => {
@@ -117,9 +119,8 @@ function Header() {
       {/* HEADER */}
       <header
         id="header"
-        className={`header fixed-top ${
-          scrolled ? "header-scrolled" : ""
-        }`}
+        className={`header fixed-top ${scrolled ? "header-scrolled" : ""
+          }`}
       >
 
         <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
@@ -170,66 +171,66 @@ function Header() {
           </nav>
 
           {/* RIGHT SIDE */}
-         
 
-<div className="d-flex gap-2 align-items-center">
 
-  {!token ? (
-    <>
+          <div className="d-flex gap-2 align-items-center">
 
-      {/* SIGNUP */}
-      <button
-        className="cta-btn border-0"
-        onClick={() => {
+            {!token ? (
+              <>
 
-          setIsClosingModal(false);
+                {/* SIGNUP */}
+                <button
+                  className="cta-btn border-0"
+                  onClick={() => {
 
-          setShowSignupModal(true);
-        }}
-      >
-        Sign In
-      </button>
+                    setIsClosingModal(false);
 
-      {/* LOGIN */}
-      <button
-        className="cta-btn border-0"
-        onClick={() => setShowOffcanvas(true)}
-      >
-        Login
-      </button>
+                    setShowSignupModal(true);
+                  }}
+                >
+                  Sign In
+                </button>
 
-    </>
-  ) : (
+                {/* LOGIN */}
+                <button
+                  className="cta-btn border-0"
+                  onClick={() => setShowOffcanvas(true)}
+                >
+                  Login
+                </button>
 
-    <>
-      {/* USER ICON */}
-      <button
-        className="btn  rounded-circle"
-      >
-        <i className="bi bi-person-circle fs-3"></i>
-      </button>
-      
-      {/* LOGOUT BUTTON */}
-      <button
-        className="btn btn-danger"
-        onClick={() => {
+              </>
+            ) : (
 
-          dispatch(logout());
+              <>
+                {/* USER ICON */}
+                <button
+                  className="btn  rounded-circle"
+                >
+                  <i className="bi bi-person-circle fs-3"></i>
+                </button>
 
-          navigate("/Home");
+                {/* LOGOUT BUTTON */}
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
 
-        }}
-      >
-        Logout
-      </button>
-    </>
-  )}
+                    dispatch(logout());
 
-</div>
+                    navigate("/Home");
 
-<div>
-  
-</div>
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            )}
+
+          </div>
+
+          <div>
+
+          </div>
 
         </div>
 
@@ -237,9 +238,8 @@ function Header() {
 
       {/* LOGIN OFFCANVAS */}
       <div
-        className={`custom-offcanvas ${
-          showOffcanvas ? "show-offcanvas" : ""
-        }`}
+        className={`custom-offcanvas ${showOffcanvas ? "show-offcanvas" : ""
+          }`}
       >
 
         <div className="offcanvas-header border-bottom">
@@ -282,41 +282,31 @@ function Header() {
 
             </div>
 
-            {/* PASSWORD */}
-<div className="mb-3">
-  <label className="form-label">
-    Password
-  </label>
+            {/* ==================== LOGIN PASSWORD ==================== */}
+            <div className="mb-3">
+              <label className="form-label">Password</label>
 
-  <div className="password-wrapper">
-    <input
-      type="password"
-      className="form-control"
-      placeholder="Enter your password"
-      value={loginData.password}
-      onChange={(e) =>
-        setLoginData({
-          ...loginData,
-          password: e.target.value,
-        })
-      }
-      required
-    />
-
-    {/* 
-<i
-  className={`bi ${
-    showLoginPassword
-      ? "bi-eye-fill"
-      : "bi-eye-slash-fill"
-  } password-eye`}
-  onClick={() =>
-    setShowLoginPassword(!showLoginPassword)
-  }
-></i>
-*/}
-  </div>
-</div>
+              <div className="password-wrapper">
+                <input
+                  type={showLoginPassword ? "text" : "password"} // Type dynamically change hoga
+                  className="form-control"
+                  placeholder="Enter your password"
+                  value={loginData.password}
+                  onChange={(e) =>
+                    setLoginData({
+                      ...loginData,
+                      password: e.target.value,
+                    })
+                  }
+                  required
+                />
+                <i
+                  className={`bi ${showLoginPassword ? "bi-eye" : "bi-eye-slash"
+                    } password-eye`} // Hidden hone par slash dikhega
+                  onClick={() => setShowLoginPassword(!showLoginPassword)}
+                ></i>
+              </div>
+            </div>
             {/* ERROR */}
             {error && (
               <div className="alert alert-danger py-2">
@@ -369,20 +359,19 @@ function Header() {
 
       {/* SIGNUP MODAL */}
       {showSignupModal && (
-        <div 
+        <div
           className="signup-modal-overlay modal fade show d-block"
           tabIndex="-1"
-        > 
+        >
           <div
             className="modal-dialog modal-dialog-centered modal-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className={`modal-content border-0 shadow-lg rounded-4 ${
-                isClosingModal
-                  ? "signup-modal-close-animation"  
-                  : "signup-modal-animation"
-              }`}
+              className={`modal-content border-0 shadow-lg rounded-4 ${isClosingModal
+                ? "signup-modal-close-animation"
+                : "signup-modal-animation"
+                }`}
             >
 
               {/* Modal Header */}
@@ -397,7 +386,7 @@ function Header() {
                     Join JustBook and book services quickly and easily.
                   </p>
                 </div>
-  
+
                 {/* Close Button */}
                 <button
                   type="button"
@@ -449,180 +438,188 @@ function Header() {
 
                     {/* Phone Number */}
                     <div className="col-md-6 mb-3">
-                    <label className="form-label fw-semibold">
-                            Phone Number
-                    </label>
-
-                    <div className="input-group modern-input-group">
-                    <span className="input-group-text">
-                    <i className="bi bi-telephone"></i>
-                    </span>
-                    
-                    <input
-                    type="tel"
-                    className="form-control"
-                    placeholder="Enter your phone number"
-                    />
-                    </div>
-</div>
-
-{/* Country */}
-<div className="col-md-6 mb-3">
-  <label className="form-label fw-semibold">
-    Country
-  </label>
-
-  <div className="input-group modern-input-group">
-    <span className="input-group-text">
-      <i className="bi bi-globe"></i>
-    </span>
-            
-    <select className="form-control">
-      <option>India</option>
-      <option>United States</option>
-      <option>Canada</option>
-      <option>Australia</option>
-      <option>Mexico</option>
-      <option>South Africa</option>
-      <option>United Kingdom</option>
-      
-    </select>
-  </div>
-</div>
-
-{/* State */}
-<div className="col-md-6 mb-3">
-  <label className="form-label fw-semibold">
-    State
-  </label>
-
-  <div className="input-group modern-input-group">
-    <span className="input-group-text">
-      <i className="bi bi-map"></i>
-    </span>
-
-    <input
-      type="text"
-      className="form-control"
-      placeholder="State"
-    />
-  </div>
-</div>
-
-
-{/* City */}
-<div className="col-md-6 mb-3">
-  <label className="form-label fw-semibold">
-    City
-  </label>
-
-  <div className="input-group modern-input-group">
-    <span className="input-group-text">
-      <i className="bi bi-buildings"></i>
-    </span>
-
-    <input
-      type="text"
-      className="form-control"
-      placeholder="City"
-    />
-  </div>
-</div>
-
-{/* Street Address */}
-<div className="col-md-6 mb-3">
-  <label className="form-label fw-semibold">
-    Street Address
-  </label>
-
-  <div className="input-group modern-input-group">
-    <span className="input-group-text">
-      <i className="bi bi-geo-alt"></i>
-    </span>
-
-    <input
-      type="text"
-      className="form-control"
-      placeholder="Street Address"
-    />
-  </div>
-</div>
-
-{/* Pincode */}
-<div className="col-md-6 mb-3">
-  <label className="form-label fw-semibold">
-    Pincode
-  </label>
-
-  <div className="input-group modern-input-group">
-    <span className="input-group-text">
-      <i className="bi bi-mailbox"></i>
-    </span>
-
-    <input
-      type="text"
-      className="form-control"
-      placeholder="Pincode"
-    />
-  </div>
-</div>
-                                        
-              
-                    {/* Password */}
-                    <div className="col-md-6 mb-3">
                       <label className="form-label fw-semibold">
-                        Password
+                        Phone Number
                       </label>
 
-                      <input
-                        type="password"
-                        className="form-control"
-                        placeholder="Create password"
-                      />
+                      <div className="input-group modern-input-group">
+                        <span className="input-group-text">
+                          <i className="bi bi-telephone"></i>
+                        </span>
+
+                        <input
+                          type="tel"
+                          className="form-control"
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
                     </div>
-                        
+
+                    {/* Country */}
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label fw-semibold">
+                        Country
+                      </label>
+
+                      <div className="input-group modern-input-group">
+                        <span className="input-group-text">
+                          <i className="bi bi-globe"></i>
+                        </span>
+
+                        <select className="form-control">
+                          <option>India</option>
+                          <option>United States</option>
+                          <option>Canada</option>
+                          <option>Australia</option>
+                          <option>Mexico</option>
+                          <option>South Africa</option>
+                          <option>United Kingdom</option>
+
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* State */}
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label fw-semibold">
+                        State
+                      </label>
+
+                      <div className="input-group modern-input-group">
+                        <span className="input-group-text">
+                          <i className="bi bi-map"></i>
+                        </span>
+
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="State"
+                        />
+                      </div>
+                    </div>
+
+
+                    {/* City */}
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label fw-semibold">
+                        City
+                      </label>
+
+                      <div className="input-group modern-input-group">
+                        <span className="input-group-text">
+                          <i className="bi bi-buildings"></i>
+                        </span>
+
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="City"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Street Address */}
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label fw-semibold">
+                        Street Address
+                      </label>
+
+                      <div className="input-group modern-input-group">
+                        <span className="input-group-text">
+                          <i className="bi bi-geo-alt"></i>
+                        </span>
+
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Street Address"
+                        />
+                      </div>
+                      </div>
+
+                    {/* Pincode */}
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label fw-semibold">
+                        Pincode
+                      </label>
+
+                      <div className="input-group modern-input-group">
+                        <span className="input-group-text">
+                          <i className="bi bi-mailbox"></i>
+                        </span>
+
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Pincode"
+                        />
+                      </div>
+                    </div>
+
+              
+                    {/* ==================== SIGN IN / REGISTER PASSWORDS ==================== */}
+                    {/* Create Password */}
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label fw-semibold">Password</label>
+                      <div className="password-wrapper">
+                        <input
+                          type={showRegisterPassword ? "text" : "password"}
+                          className="form-control"
+                          placeholder="Create password"
+                        />
+                        <i
+                          className={`bi ${showRegisterPassword ? "bi-eye" : "bi-eye-slash"
+                            } password-eye`}
+                          onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                        ></i>
+                      </div>
+                    </div>
+
                     {/* Confirm Password */}
                     <div className="col-md-6 mb-3">
-                      <label className="form-label fw-semibold">
-                        Confirm Password
-                      </label>
-                 
-                      <input
-                        type="password"
-                        className="form-control"
-                        placeholder="Confirm password"
-                      />
-                    </div>
-
-                  </div>
-
-                  {/* Terms */}
-                  <div className="form-check mb-4">
+                    <label className="form-label fw-semibold">Confirm Password</label>
+                    <div className="password-wrapper">
                     <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="termsCheck"
+                    type={showRegisterPassword ? "text" : "password"}
+                    className="form-control"
+                    placeholder="Confirm password"
+                    />
+                    <i
+                    className={`bi ${showRegisterPassword ? "bi-eye" : "bi-eye-slash"
+                    } password-eye`}
+                    onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                    ></i>
+                    </div>
+                    </div>
+                    </div>                
+                    
+                    {/* Terms */}
+                    <div className="form-check mb-4">
+                    <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="termsCheck"
                     />
 
                     <label
-                      className="form-check-label small text-muted"
-                      htmlFor="termsCheck"
+                    className="form-check-label small text-muted"
+                    htmlFor="termsCheck"
                     >
-                      I agree to the Terms & Conditions and Privacy Policy.
+                    I agree to the Terms & Conditions and Privacy Policy.
                     </label>
-                  </div>
+                    </div>
 
                   {/* Submit */}
                   <button
-                    type="submit"
-                    className="signup-submit-btn btn w-100 py-2 fw-bold rounded-3 text-white"
+                   type="submit"
+                   className="signup-submit-btn btn w-100 py-2 fw-bold rounded-3 text-white"
                   >
-                    Create Account
+                   Create Account
                   </button>
 
                   {/* Footer */}
                   <p className="text-center mt-3 mb-0 text-muted">
-                    Already have an account?{" "}
+                   Already have an account?{" "}
 
                     <span
                       className="text-primary fw-semibold signup-login-link"

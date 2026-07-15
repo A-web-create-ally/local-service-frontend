@@ -487,3 +487,25 @@
     opacity: 1;
   }
 }
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-eye {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 10;
+  
+  /* Na zyada bada, na chhota aur professional color */
+  font-size: 1.15rem; /* Perfect medium size */
+  color: #495057;     /* Professional Dark Charcoal Gray */
+}
+
+/* Input padding fix taaki text eye icon ke peeche na chhup jaye */
+.password-wrapper .form-control {
+  padding-right: 42px !important;
+}

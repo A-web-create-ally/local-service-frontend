@@ -350,7 +350,7 @@ body.mobile-nav-active .navmenu ul {
   .navmenu>ul>li:last-child {
     padding-right: 0;
   }
-
+   
   .navmenu a,
   .navmenu a:focus {
     color: var(--nav-color);
