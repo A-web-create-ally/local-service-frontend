@@ -221,3 +221,20 @@
     flex-direction: column;
   }
 }
+
+.booking-service-image{
+    width:110px;
+    height:110px;
+    border-radius:18px;
+    object-fit:cover;
+    display:block;
+    margin:0 auto;
+    border:4px solid #fff;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.booking-header{
+    border-bottom:1px solid #ececec;
+    padding-bottom:20px;
+    margin-bottom:25px;
+}

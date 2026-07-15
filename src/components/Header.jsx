@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 
 import { Link, useNavigate } from "react-router-dom";
 
+import { useLocation } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import logo from '../assets/img/justbook-logo.png';
@@ -15,7 +17,7 @@ import {loginUser,logout} from "../features/auth/authslic";
 function Header() {
 
   const navigate = useNavigate();
-
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const {
@@ -68,6 +70,14 @@ function Header() {
       window.removeEventListener("scroll", headerSticky);
 
   }, []);
+
+  
+    useEffect(() => {
+      if (location.state?.openLogin) {
+        setShowOffcanvas(true);
+      }
+    }, [location]);
+
 
   // CLOSE SIGNUP MODAL
   const closeSignupModal = () => {

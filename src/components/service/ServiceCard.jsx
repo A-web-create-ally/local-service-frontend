@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-
+import "../../assets/styles/serviceCard.css"
+import { useDispatch } from "react-redux";
+import { createBooking } from "../../features/bookingslice.js";
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -10,6 +12,7 @@ const ServiceCard = ({ service }) => {
 
   console.log(service);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { token } = useSelector((state) => state.auth);
 
@@ -17,6 +20,12 @@ const ServiceCard = ({ service }) => {
 
   const [showBookingPopup, setShowBookingPopup] = useState(false);
 
+  const [bookingData, setBookingData] = useState({
+  bookingDate: "",
+  bookingTime: "",
+  address: "",
+  mobileNumber: "",
+  });
   // SAFETY CHECK
   if (!service) {
     return null;
@@ -37,6 +46,33 @@ const ServiceCard = ({ service }) => {
     setShowBookingPopup(true);
   };
 
+  const handleBookingSubmit = async (e) => {
+  e.preventDefault();
+
+  const result = await dispatch(
+    createBooking({
+      service: service._id,
+      bookingDate: bookingData.bookingDate,
+      bookingTime: bookingData.bookingTime,
+      address: bookingData.address,
+      mobileNumber: bookingData.mobileNumber,
+    })
+  );
+
+  if (result.meta.requestStatus === "fulfilled") {
+
+    alert("Booking Successful");
+
+    setShowBookingPopup(false);
+
+    setBookingData({
+      bookingDate: "",
+      bookingTime: "",
+      address: "",
+      mobileNumber: "",
+    });
+   }
+  };
   return (
 
     <>
@@ -124,7 +160,11 @@ const ServiceCard = ({ service }) => {
 
               <button
                 className="btn btn-primary w-50"
-                onClick={() => navigate("/Home")}
+                onClick={() =>
+                navigate("/Home", {
+                  state: { openLogin: true },
+                  })
+                 }
               >
                 Login
               </button>
@@ -150,45 +190,183 @@ const ServiceCard = ({ service }) => {
               ×
             </button>
 
-            <h3 className="booking-title">
+            {/* <h3 className="booking-title">
               Book Service
             </h3>
 
             <p className="booking-subtitle">
               Fill details to continue booking
-            </p>
+            </p> */}
+            
+            <div className="booking-header">
 
-            <form>
-
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="booking-input"
+              <img
+                src={
+                  service.image
+                    ? `${API_URL}${service.image.startsWith("/") ? "" : "/"}${service.image}`
+                    : `${API_URL}/uploads/user/image/server-Screenshot (3).png`
+                }
+                alt={service.title}
+                className="booking-service-image"
               />
 
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                className="booking-input"
-              />
+              <div className="booking-service-info">
 
-              <input
-                type="date"
-                className="booking-input"
-              />
+                <h3>{service.title}</h3>
 
-              <textarea
-                rows="4"
+                <div className="booking-meta">
+
+                  <span className="rating">
+                    ⭐ {service.rating || 4.8}
+                  </span>
+
+                  <span className="price">
+                    ₹{service.price}
+                  </span>
+
+                </div>
+
+                <small className="booking-duration">
+                  ⏱ {service.duration || "45 Minutes"}
+                </small>
+
+              </div>
+
+            </div>
+
+            <form onSubmit={handleBookingSubmit}>
+
+                <div className="booking-phone">
+                    <i className="bi bi-telephone"></i>
+                    <input
+                        type="tel"
+                        placeholder="Phone Number"
+                        className="booking-input phone-input"
+                        value={bookingData.mobileNumber}
+                        onChange={(e)=>
+                            setBookingData({
+                                ...bookingData,
+                                mobileNumber:e.target.value,
+                            })
+                        }
+                    />
+                </div>
+
+                <div className="booking-row">
+
+                    <div className="booking-field">
+                        <i className="bi bi-calendar3"></i>
+
+                        <input
+                            type="date"
+                            className="booking-input"
+                            value={bookingData.bookingDate}
+                            onChange={(e) =>
+                                setBookingData({
+                                    ...bookingData,
+                                    bookingDate: e.target.value,
+                                })
+                            }
+                        />
+                    </div>
+
+                    <div className="booking-field">
+                        <i className="bi bi-clock-fill"></i>
+
+                        <input
+                            type="time"
+                            className="booking-input"
+                            value={bookingData.bookingTime}
+                            onChange={(e) =>
+                                setBookingData({
+                                    ...bookingData,
+                                    bookingTime: e.target.value,
+                                })
+                            }
+                        />
+                    </div>
+
+                </div>                
+              {/* <div className="booking-phone">
+                  <i className="bi bi-telephone"></i>
+                  <input
+                      type="tel"
+                      placeholder="Phone Number"
+                      className="booking-input phone-input"
+                      value={bookingData.mobileNumber}
+                      onChange={(e)=>
+                          setBookingData({
+                              ...bookingData,
+                              mobileNumber:e.target.value,
+                          })
+                      }
+                  />
+              </div>             
+             
+              <div className="booking-row">
+                <i className="bi bi-calendar3"></i>
+                <input
+                  type="date"
+                  className="booking-input"
+                  value={bookingData.bookingDate}
+                  onChange={(e) =>
+                    setBookingData({
+                      ...bookingData,
+                      bookingDate: e.target.value,
+                    })
+                  }
+                />
+
+                <input
+                  type="time"
+                  className="booking-input"
+                  value={bookingData.bookingTime}
+                  onChange={(e) =>
+                    setBookingData({
+                      ...bookingData,
+                      bookingTime: e.target.value,
+                    })
+                  }
+                />
+
+              </div> */}
+              <div className="booking-address">
+                    <i className="bi bi-geo-alt-fill"></i>
+
+                    <textarea
+                        rows="3"
+                        placeholder="Enter Address"
+                        className="booking-input address-input"
+                        value={bookingData.address}
+                        onChange={(e)=>
+                            setBookingData({
+                                ...bookingData,
+                                address:e.target.value,
+                            })
+                        }
+                    />
+                </div>
+              {/* <textarea
+                rows="3"
                 placeholder="Enter Address"
                 className="booking-input"
-              ></textarea>
+                value={bookingData.address}
+                onChange={(e) =>
+                  setBookingData({
+                    ...bookingData,
+                    address: e.target.value,
+                  })
+                }
+              /> */}
 
-              <button
-                type="submit"
-                className="booking-btn"
-              >
-                Confirm Booking
-              </button>
+              <div className="booking-footer">
+                  <button
+                      type="submit"
+                      className="booking-btn"
+                  >
+                      Confirm Booking
+                  </button>
+              </div>
 
             </form>
 

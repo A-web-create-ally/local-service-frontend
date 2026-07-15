@@ -1,0 +1,286 @@
+.booking-header{
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+    padding-bottom:18px;
+    border-bottom:1px solid #ececec;
+    margin-bottom:22px;
+}
+
+.booking-service-image{
+    width:95px;
+    height:95px;
+    flex-shrink:0;
+}
+
+.booking-header h3{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.booking-service-info{
+
+    flex:1;
+}
+
+.booking-service-info h3{
+
+    margin:0 0 8px;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#1f2937;
+}
+
+.booking-meta{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:8px 0;
+}
+
+.booking-rating{
+
+    color:#f59e0b;
+
+    font-weight:600;
+
+    font-size:16px;
+}
+
+.booking-price{
+
+    color:#2563eb;
+
+    font-size:22px;
+
+    font-weight:700;
+}
+
+.booking-duration{
+
+    color:#6b7280;
+
+    font-size:14px;
+}
+
+.booking-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:25px;
+}
+
+.booking-popup{
+    position:relative;
+    width:100%;
+    max-width:470px;
+    background:#fff;
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+    max-height:90vh;
+    overflow-y:auto;
+    animation:popup .25s ease;
+}
+
+.booking-popup::-webkit-scrollbar{
+    width:6px;
+}
+
+.booking-popup::-webkit-scrollbar-thumb{
+    background:#d0d0d0;
+    border-radius:20px;
+}
+
+.booking-close{
+    position:absolute;
+    top:15px;
+    right:18px;
+    border:none;
+    background:none;
+    font-size:34px;
+    cursor:pointer;
+    color:#555;
+}
+
+.booking-close:hover{
+    color:#000;
+}
+
+.booking-input{
+    width:100%;
+    padding:14px 16px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    margin-bottom:15px;
+    outline:none;
+    transition:.3s;
+}
+
+.booking-input:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 0 4px rgba(13,110,253,.15);
+}
+
+.booking-btn{
+    width:100%;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    background:#0d6efd;
+    color:white;
+    font-weight:600;
+    transition:.3s;
+}
+
+.booking-btn:hover{
+    background:#0b5ed7;
+}
+
+@media(max-width:576px){
+
+.booking-popup{
+    max-width:100%;
+    padding:20px;
+    max-height:95vh;
+}
+}
+@keyframes popup{
+from{
+opacity:0;
+transform:translateY(20px) scale(.95);
+}
+to{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+}
+
+.booking-row{
+
+    display:flex;
+
+    gap:12px;
+}
+
+.booking-row .booking-field{
+
+    flex:1;
+}
+
+.booking-input{
+
+    min-height:52px;
+}
+
+textarea.booking-input{
+
+    height:90px;
+
+    resize:none;
+}
+
+.booking-footer{
+
+    position:sticky;
+
+    bottom:-28px;
+
+    background:#fff;
+
+    padding-top:16px;
+
+    margin-top:10px;
+}
+
+.booking-phone,
+.booking-field,
+.booking-address{
+    position:relative;
+}
+
+.booking-phone i,
+.booking-field i{
+    position:absolute;
+    left:18px;
+    top:15px;
+    font-size:17px;
+    color:#ff6b35;
+    z-index:2;
+}
+
+.booking-address i{
+    position:absolute;
+    left:18px;
+    top:15px;
+    font-size:17px;
+    color:#ff6b35;
+    z-index:2;
+}
+
+.booking-address i{
+    top:15px;
+    transform:none;
+}
+
+.phone-input,
+.booking-field .booking-input,
+.address-input{
+    padding-left:48px;
+}
+
+.booking-field{
+    flex:1;
+}
+
+
+/* .booking-phone{
+
+    position:relative;
+}
+
+.booking-phone i{
+
+    position:absolute;
+
+    left:16px;
+
+    top:17px;
+
+    color:#777;
+
+    z-index:2;
+}
+
+.phone-input{
+
+    padding-left:45px;
+} */
+
+/* .booking-input::-webkit-calendar-picker-indicator{
+    opacity:0;
+}
+
+.booking-input::-webkit-inner-spin-button{
+    display:none;
+} */
+
+.booking-field input[type="date"]::-webkit-calendar-picker-indicator,
+.booking-field input[type="time"]::-webkit-calendar-picker-indicator{
+    opacity:0;
+    position:absolute;
+    inset:0;
+    cursor:pointer;
+}
+
+.booking-field input[type="time"]::-webkit-inner-spin-button{
+    display:none;
+}
