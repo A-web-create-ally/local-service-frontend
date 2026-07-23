@@ -238,3 +238,168 @@
     padding-bottom:20px;
     margin-bottom:25px;
 }
+
+.booking-status{
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+}
+
+/* Pending */
+.booking-status.pending{
+    background:#fff3cd;
+    color:#b45309;
+    border:1px solid #facc15;
+}
+
+/* Confirmed */
+.booking-status.confirmed{
+    background:#dbeafe;
+    color:#2563eb;
+    border:1px solid #60a5fa;
+}
+
+/* Completed */
+.booking-status.completed{
+    background:#dcfce7;
+    color:#15803d;
+    border:1px solid #4ade80;
+}
+
+/* Cancelled */
+.booking-status.cancelled{
+    background:#fee2e2;
+    color:#dc2626;
+    border:1px solid #f87171;
+}
+
+/* new layout */
+
+.booking-table-wrapper{
+
+background:#fff;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.booking-table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+.booking-table thead{
+
+background:#fafafa;
+
+}
+
+.booking-table th{
+
+padding:18px;
+font-size:14px;
+font-weight:700;
+text-align:left;
+border-bottom:1px solid #ececec;
+
+}
+
+.booking-table td{
+
+padding:18px;
+border-bottom:1px solid #ececec;
+vertical-align:middle;
+
+}
+
+.booking-filter{
+
+border:none;
+background:#f97316;
+color:#fff;
+padding:10px 22px;
+border-radius:30px;
+font-weight:600;
+margin-right:10px;
+
+}
+
+.booking-filter.active{
+
+background:#ea580c;
+
+}
+
+/* .booking-actions{
+
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+
+} */
+
+.booking-actions{
+
+display:flex;
+flex-direction:column;
+gap:8px;
+width:120px;
+
+}
+
+.booking-actions .btn{
+
+font-size:13px;
+padding:6px 14px;
+
+}
+
+.booking-table tbody tr:hover{
+
+background:#fafafa;
+
+transition:.25s;
+
+}
+
+.provider-name{
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.booking-filters{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.booking-filters button{
+    border:1px solid #e5e7eb;
+    background:#fff;
+    color:#6b7280;
+    padding:10px 22px;
+    border-radius:30px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.booking-filters button:hover{
+    border-color:#f97316;
+    color:#f97316;
+}
+
+.booking-filters button.active{
+    background:#f97316;
+    color:#fff;
+    border-color:#f97316;
+}

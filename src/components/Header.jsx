@@ -1,18 +1,12 @@
+import { toast } from "react-toastify";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
 import { useState, useEffect } from 'react';
-
 import { Link, useNavigate } from "react-router-dom";
-
 import { useLocation } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import logo from '../assets/img/justbook-logo.png';
-
 import '../assets/styles/login.css';
-
-import { loginUser, logout } from "../features/auth/authslic";
+import { loginUser, registerUser, forgotPassword, verifyOtp, resetPassword, logout } from "../features/auth/authslic";
 
 function Header() {
 
@@ -47,9 +41,43 @@ function Header() {
   });
 
   const [signupData, setSignupData] = useState({
+    role: "user",
+    name: "",
+    email: "",
+    phone: "",
+
+    address: {
+      country: "India",
+      state: "",
+      city: "",
+      street: "",
+      pincode: "",
+    },
+
     password: "",
-    confirmPassword: "",
+    confirm_password: "",
   });
+
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+
+  const [otp, setOtp] = useState("");
+
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+  const [showVerifyOtpModal, setShowVerifyOtpModal] = useState(false);
+  const [otpData, setOtpData] = useState({
+    email: "",
+    otp: "",
+  });
+
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+
+  const [resetPasswordData, setResetPasswordData] = useState({
+    email: "",
+    newPassword: "",
+    confirmPassword: "",
+  });  
 
   // HEADER SCROLL
   useEffect(() => {
@@ -96,21 +124,166 @@ function Header() {
   };
 
   // LOGIN
-  const handleLogin = async (e) => {
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    e.preventDefault();
+  const result = await dispatch(loginUser(loginData));
+
+  if (result.meta.requestStatus === "fulfilled") {
+    toast.success("Login successful!");
+    setShowOffcanvas(false);
+    navigate("/Home");
+  } else {
+    toast.error(result.payload || "Login failed");
+  }
+};
+
+const handleForgotPassword = async () => {
+
+  if (!forgotEmail.trim()) {
+    toast.error("Please enter your email");
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(forgotEmail)) {
+    toast.error("Please enter a valid email address");
+    return;
+  }
+
+  const result = await dispatch(
+    forgotPassword(forgotEmail)
+  );
+
+  if (result.meta.requestStatus === "fulfilled") {
+
+    toast.success("OTP sent successfully", {
+      autoClose: 2500,
+    });
+
+    setOtpData({
+            email: forgotEmail,
+            otp:"",
+        });
+
+        setShowForgotModal(false);
+        setShowVerifyOtpModal(true);
+
+  } else {
+
+    toast.error(result.payload);
+
+  }
+};
+
+const handleVerifyOtp = async () => {
 
     const result = await dispatch(
-      loginUser(loginData)
+        verifyOtp(otpData)
     );
 
-    if (result.meta.requestStatus === "fulfilled") {
+    if(result.meta.requestStatus==="fulfilled"){
 
-      setShowOffcanvas(false);
+        toast.success("OTP Verified");
 
-      navigate("/Home");
+        setShowVerifyOtpModal(false);
+        
+        setResetPasswordData({
+              email: otpData.email,
+              newPassword: "",
+              confirmPassword: "",
+            });
+
+            setShowResetPasswordModal(true);        
+    }else {
+      toast.error(result.payload);
     }
-  };
+
+};
+
+const handleResetPassword = async () => {
+
+  if (
+    !resetPasswordData.newPassword ||
+    !resetPasswordData.confirmPassword
+  ) {
+    toast.error("Please fill all fields");
+    return;
+  }
+
+  if (
+    resetPasswordData.newPassword !==
+    resetPasswordData.confirmPassword
+  ) {
+    toast.error("Passwords do not match");
+    return;
+  }
+
+  const result = await dispatch(
+    resetPassword(resetPasswordData)
+  );
+
+  if (result.meta.requestStatus === "fulfilled") {
+
+    toast.success("Password reset successfully", {
+      autoClose: 2500,
+    });
+
+    setShowResetPasswordModal(false);
+
+    setTimeout(() => {
+      setShowOffcanvas(true);
+    }, 500);
+
+  } else {
+
+    toast.error(result.payload);
+
+  }
+
+};
+
+const handleRegister = async (e) => {
+
+  e.preventDefault();
+
+  const result = await dispatch(
+    registerUser(signupData)
+  );
+
+  if (result.meta.requestStatus === "fulfilled") {
+
+    toast.success("Account created successfully", {
+      position: "top-right",
+      autoClose: 2500,
+    });
+
+    closeSignupModal();
+
+    setTimeout(() => {
+      setShowOffcanvas(true);
+    }, 500);
+
+    setSignupData({
+      role: "user",
+      name: "",
+      email: "",
+      phone: "",
+      address: {
+        country: "India",
+        state: "",
+        city: "",
+        street: "",
+        pincode: "",
+      },
+      password: "",
+      confirm_password: "",
+    });
+
+  }
+
+};
 
   return (
 
@@ -205,7 +378,8 @@ function Header() {
               <>
                 {/* USER ICON */}
                 <button
-                  className="btn  rounded-circle"
+                  className="btn rounded-circle"
+                  onClick={() => navigate("/profile")}
                 >
                   <i className="bi bi-person-circle fs-3"></i>
                 </button>
@@ -216,7 +390,7 @@ function Header() {
                   onClick={() => {
 
                     dispatch(logout());
-
+                    toast.success("Logged out successfully!"); 
                     navigate("/Home");
 
                   }}
@@ -307,14 +481,20 @@ function Header() {
                 ></i>
               </div>
             </div>
-            {/* ERROR */}
-            {error && (
-              <div className="alert alert-danger py-2">
-                {error}
-              </div>
-            )}
 
-            {/* LOGIN BUTTON */}
+            <div className="text-end mb-3">
+              <span
+                className="text-primary"
+                style={{ cursor: "pointer", fontSize: "14px" }}
+                onClick={() => {
+                  setShowOffcanvas(false);
+                  setShowForgotModal(true);
+                }}
+              >
+                Forgot Password?
+              </span>
+            </div>
+
             <button
               className="btn btn-primary w-100"
               disabled={loading}
@@ -398,7 +578,7 @@ function Header() {
 
               {/* Modal Body */}
               <div className="modal-body p-4 p-md-5">
-                <form>
+                <form onSubmit={handleRegister}>
 
                   <div className="row">
 
@@ -412,8 +592,16 @@ function Header() {
                         type="text"
                         className="form-control"
                         placeholder="Enter your full name"
+                        value={signupData.name}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            name: e.target.value,
+                          })
+                        }
                       />
-                    </div>
+
+                   </div>
 
                     {/* Email */}
                     <div className="col-md-6 mb-3">
@@ -425,16 +613,17 @@ function Header() {
                         type="email"
                         className="form-control"
                         placeholder="Enter your email"
+                        value={signupData.email}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            email: e.target.value,
+                          })
+                        }
                       />
+
                     </div>
 
-                    {/* ================= CONTACT & ADDRESS SECTION ================= */}
-
-                    {/*<div className="col-12">
-                    <h5 className="fw-bold mb-3 address-heading">
-                         Contact & Address Details
-                    </h5>
-                    </div>*/}
 
                     {/* Phone Number */}
                     <div className="col-md-6 mb-3">
@@ -451,7 +640,15 @@ function Header() {
                           type="tel"
                           className="form-control"
                           placeholder="Enter your phone number"
+                          value={signupData.phone}
+                          onChange={(e) =>
+                            setSignupData({
+                              ...signupData,
+                              phone: e.target.value,
+                            })
+                          }
                         />
+
                       </div>
                     </div>
 
@@ -466,17 +663,28 @@ function Header() {
                           <i className="bi bi-globe"></i>
                         </span>
 
-                        <select className="form-control">
-                          <option>India</option>
-                          <option>United States</option>
-                          <option>Canada</option>
-                          <option>Australia</option>
-                          <option>Mexico</option>
-                          <option>South Africa</option>
-                          <option>United Kingdom</option>
-
+                        <select
+                          className="form-control"
+                          value={signupData.address.country}
+                          onChange={(e) =>
+                            setSignupData({
+                              ...signupData,
+                              address: {
+                                ...signupData.address,
+                                country: e.target.value,
+                              },
+                            })
+                          }
+                        >                 
+                        <option value="India">India</option>
+                            <option value="United States">United States</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="United Kingdom">United Kingdom</option>
                         </select>
-                      </div>
+                   </div>
                     </div>
 
                     {/* State */}
@@ -494,8 +702,19 @@ function Header() {
                           type="text"
                           className="form-control"
                           placeholder="State"
-                        />
-                      </div>
+                          value={signupData.address.state}
+                          onChange={(e) =>
+                            setSignupData({
+                              ...signupData,
+                              address: {
+                                ...signupData.address,
+                                state: e.target.value,
+                              },
+                            })
+                          }
+                        />                    
+
+                        </div>
                     </div>
 
 
@@ -514,7 +733,18 @@ function Header() {
                           type="text"
                           className="form-control"
                           placeholder="City"
+                          value={signupData.address.city}
+                          onChange={(e)=>
+                          setSignupData({
+                            ...signupData,
+                            address:{
+                              ...signupData.address,
+                              city:e.target.value,
+                            }
+                          })
+                          }
                         />
+
                       </div>
                     </div>
 
@@ -533,6 +763,16 @@ function Header() {
                           type="text"
                           className="form-control"
                           placeholder="Street Address"
+                          value={signupData.address.street}
+                          onChange={(e)=>
+                          setSignupData({
+                            ...signupData,
+                            address:{
+                              ...signupData.address,
+                              street:e.target.value,
+                            }
+                          })
+                          }                          
                         />
                       </div>
                       </div>
@@ -552,6 +792,16 @@ function Header() {
                           type="text"
                           className="form-control"
                           placeholder="Pincode"
+                          value={signupData.address.pincode}
+                          onChange={(e)=>
+                          setSignupData({
+                            ...signupData,
+                            address:{
+                              ...signupData.address,
+                              pincode:e.target.value,
+                            }
+                          })
+                          }                          
                         />
                       </div>
                     </div>
@@ -566,6 +816,13 @@ function Header() {
                           type={showRegisterPassword ? "text" : "password"}
                           className="form-control"
                           placeholder="Create password"
+                          value={signupData.password}
+                          onChange={(e)=>
+                          setSignupData({
+                            ...signupData,
+                            password:e.target.value,
+                          })
+                          }
                         />
                         <i
                           className={`bi ${showRegisterPassword ? "bi-eye" : "bi-eye-slash"
@@ -583,6 +840,13 @@ function Header() {
                     type={showRegisterPassword ? "text" : "password"}
                     className="form-control"
                     placeholder="Confirm password"
+                    value={signupData.confirm_password}
+                    onChange={(e)=>
+                    setSignupData({
+                      ...signupData,
+                      confirm_password:e.target.value,
+                    })
+                    }
                     />
                     <i
                     className={`bi ${showRegisterPassword ? "bi-eye" : "bi-eye-slash"
@@ -611,10 +875,11 @@ function Header() {
 
                   {/* Submit */}
                   <button
-                   type="submit"
-                   className="signup-submit-btn btn w-100 py-2 fw-bold rounded-3 text-white"
+                    type="submit"
+                    className="signup-submit-btn btn w-100 py-2 fw-bold rounded-3 text-white"
+                    disabled={loading}
                   >
-                   Create Account
+                    {loading ? "Creating Account..." : "Create Account"}
                   </button>
 
                   {/* Footer */}
@@ -642,6 +907,183 @@ function Header() {
           </div>
         </div>
       )}
+
+      {showForgotModal && (
+        <div className="signup-modal-overlay modal fade show d-block">
+          <div className="modal-dialog modal-dialog-centered">
+
+            <div className="modal-content rounded-4">
+
+              <div className="modal-header">
+                <h5>Forgot Password</h5>
+
+                <button
+                  className="btn-close"
+                  onClick={() => setShowForgotModal(false)}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+
+                <label>Email Address</label>
+
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter your email"
+                  value={forgotEmail}
+                  onChange={(e) =>
+                    setForgotEmail(e.target.value)
+                  }
+                />
+
+              </div>
+
+              <div className="modal-footer">
+
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowForgotModal(false)}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="btn btn-primary"
+                  onClick={handleForgotPassword}
+                  disabled={loading}
+                >
+                  {loading ? "Sending..." : "Send OTP"}
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
+
+{showVerifyOtpModal && (
+  <div className="signup-modal-overlay modal fade show d-block">
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content p-4 rounded-4">
+
+        <h4 className="fw-bold mb-2">
+          Verify OTP
+        </h4>
+
+        <p className="text-muted">
+          Enter the OTP sent to
+          <br />
+          <strong>{otpData.email}</strong>
+        </p>
+
+        <input
+          type="text"
+          className="form-control mb-3"
+          placeholder="Enter 6 digit OTP"
+          maxLength={6}
+          value={otpData.otp}
+          onChange={(e) =>
+            setOtpData({
+              ...otpData,
+              otp: e.target.value,
+            })
+          }
+        />
+
+        <button
+          className="btn btn-primary w-100"
+          //onClick={handleVerifyOtp}
+          onClick={handleVerifyOtp}          
+        >
+          Verify OTP
+        </button>
+
+        <button
+          className="btn btn-secondary w-100 mt-2"
+          onClick={() => setShowVerifyOtpModal(false)}
+        >
+          Cancel
+        </button>
+
+      </div>
+    </div>
+  </div>
+)}
+
+{showResetPasswordModal && (
+  <div className="signup-modal-overlay modal fade show d-block">
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content p-4 rounded-4">
+
+        <h4 className="fw-bold mb-2">
+          Reset Password
+        </h4>
+
+        <p className="text-muted">
+          Enter your new password.
+        </p>
+
+        {/* New Password */}
+        <div className="mb-3">
+          <label className="form-label">
+            New Password
+          </label>
+
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Enter new password"
+            value={resetPasswordData.newPassword}
+            onChange={(e) =>
+              setResetPasswordData({
+                ...resetPasswordData,
+                newPassword: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        {/* Confirm Password */}
+        <div className="mb-3">
+          <label className="form-label">
+            Confirm Password
+          </label>
+
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Confirm password"
+            value={resetPasswordData.confirmPassword}
+            onChange={(e) =>
+              setResetPasswordData({
+                ...resetPasswordData,
+                confirmPassword: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        <button
+          className="btn btn-primary w-100"
+          onClick={handleResetPassword}
+        >
+          Reset Password
+        </button>
+
+        <button
+          className="btn btn-secondary w-100 mt-2"
+          onClick={() => setShowResetPasswordModal(false)}
+        >
+          Cancel
+        </button>
+
+      </div>
+    </div>
+  </div>
+)}
 
       {/* OVERLAY */}
       {showOffcanvas && (

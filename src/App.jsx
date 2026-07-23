@@ -6,6 +6,10 @@ import AppRoutes from "./routes/AppRoutes";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+//Toast
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   useEffect(() => {
     AOS.init({
@@ -16,7 +20,17 @@ function App() {
     });
   }, []);
 
-  return <AppRoutes />;
+return (
+  <>
+    <AppRoutes />
+    <ToastContainer
+      position="top-right"
+      autoClose={4000}
+      theme="colored"
+    />
+  </>
+);
+
 }
 
 export default App;

@@ -1,10 +1,10 @@
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "../../assets/styles/serviceCard.css"
 import { useDispatch } from "react-redux";
-import { createBooking } from "../../features/bookingslice.js";
-
+import { createBooking } from "../../features/bookingSlice.js";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,17 +15,17 @@ const ServiceCard = ({ service }) => {
   const dispatch = useDispatch();
 
   const { token } = useSelector((state) => state.auth);
-
   const [showLoginPopup, setShowLoginPopup] = useState(false);
-
   const [showBookingPopup, setShowBookingPopup] = useState(false);
-
+  const dateRef = useRef(null);
+  const timeRef = useRef(null);
   const [bookingData, setBookingData] = useState({
   bookingDate: "",
   bookingTime: "",
   address: "",
   mobileNumber: "",
   });
+  
   // SAFETY CHECK
   if (!service) {
     return null;
@@ -46,7 +46,7 @@ const ServiceCard = ({ service }) => {
     setShowBookingPopup(true);
   };
 
-  const handleBookingSubmit = async (e) => {
+const handleBookingSubmit = async (e) => {
   e.preventDefault();
 
   const result = await dispatch(
@@ -61,18 +61,22 @@ const ServiceCard = ({ service }) => {
 
   if (result.meta.requestStatus === "fulfilled") {
 
-    alert("Booking Successful");
+    toast.success("Booking created successfully!");
 
     setShowBookingPopup(false);
-
     setBookingData({
       bookingDate: "",
       bookingTime: "",
       address: "",
       mobileNumber: "",
     });
-   }
-  };
+
+  } else {
+
+    toast.error(result.payload || "Booking failed");
+
+  }
+};
   return (
 
     <>
@@ -189,15 +193,7 @@ const ServiceCard = ({ service }) => {
             >
               ×
             </button>
-
-            {/* <h3 className="booking-title">
-              Book Service
-            </h3>
-
-            <p className="booking-subtitle">
-              Fill details to continue booking
-            </p> */}
-            
+          
             <div className="booking-header">
 
               <img
@@ -255,9 +251,14 @@ const ServiceCard = ({ service }) => {
                 <div className="booking-row">
 
                     <div className="booking-field">
-                        <i className="bi bi-calendar3"></i>
+                    
+                    <i
+                      className="bi bi-calendar3"
+                      onClick={() => dateRef.current?.showPicker()}
+                    />
 
                         <input
+                            ref={dateRef}
                             type="date"
                             className="booking-input"
                             value={bookingData.bookingDate}
@@ -271,9 +272,14 @@ const ServiceCard = ({ service }) => {
                     </div>
 
                     <div className="booking-field">
-                        <i className="bi bi-clock-fill"></i>
+                        
+                        <i
+                            className="bi bi-clock-fill"
+                            onClick={() => timeRef.current?.showPicker()}
+                        />
 
                         <input
+                            ref={timeRef}
                             type="time"
                             className="booking-input"
                             value={bookingData.bookingTime}
@@ -286,50 +292,8 @@ const ServiceCard = ({ service }) => {
                         />
                     </div>
 
-                </div>                
-              {/* <div className="booking-phone">
-                  <i className="bi bi-telephone"></i>
-                  <input
-                      type="tel"
-                      placeholder="Phone Number"
-                      className="booking-input phone-input"
-                      value={bookingData.mobileNumber}
-                      onChange={(e)=>
-                          setBookingData({
-                              ...bookingData,
-                              mobileNumber:e.target.value,
-                          })
-                      }
-                  />
-              </div>             
-             
-              <div className="booking-row">
-                <i className="bi bi-calendar3"></i>
-                <input
-                  type="date"
-                  className="booking-input"
-                  value={bookingData.bookingDate}
-                  onChange={(e) =>
-                    setBookingData({
-                      ...bookingData,
-                      bookingDate: e.target.value,
-                    })
-                  }
-                />
+                </div>  
 
-                <input
-                  type="time"
-                  className="booking-input"
-                  value={bookingData.bookingTime}
-                  onChange={(e) =>
-                    setBookingData({
-                      ...bookingData,
-                      bookingTime: e.target.value,
-                    })
-                  }
-                />
-
-              </div> */}
               <div className="booking-address">
                     <i className="bi bi-geo-alt-fill"></i>
 
@@ -346,18 +310,7 @@ const ServiceCard = ({ service }) => {
                         }
                     />
                 </div>
-              {/* <textarea
-                rows="3"
-                placeholder="Enter Address"
-                className="booking-input"
-                value={bookingData.address}
-                onChange={(e) =>
-                  setBookingData({
-                    ...bookingData,
-                    address: e.target.value,
-                  })
-                }
-              /> */}
+              
 
               <div className="booking-footer">
                   <button

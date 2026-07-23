@@ -893,6 +893,10 @@ section,
   overflow: clip;
 }
 
+.Toastify{
+    padding:0 !important;
+}
+
 @media (max-width: 1199px) {
 
   section,

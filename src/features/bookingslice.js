@@ -28,15 +28,41 @@ export const createBooking = createAsyncThunk(
   }
 );
 
+// Reschedule Booking
+export const rescheduleBooking = createAsyncThunk(
+  "booking/rescheduleBooking",
+
+  async ({ bookingId, bookingData }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.token;
+      const res = await axios.put(
+
+        `${API_URL}/booking/rescheduleBooking/${bookingId}`,
+        bookingData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to reschedule booking"
+      );
+
+    }
+  }
+);
+
 // GET MY BOOKINGS
 export const getMyBookings = createAsyncThunk(
-  "booking/getMyBookings",
+  "booking/getMyBooking",
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
-
       const res = await axios.post(
-        `${API_URL}/booking/getBooking`,
+        `${API_URL}/booking/getMyBooking`,
         {
           page: 1,
           limit: 5,
@@ -53,6 +79,36 @@ export const getMyBookings = createAsyncThunk(
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to fetch bookings"
       );
+    }
+  }
+);
+
+//cancelBooking
+export const cancelBooking = createAsyncThunk(
+  "booking/cancelBooking",
+  async (bookingId, thunkAPI) => {
+    try {
+
+      const token = thunkAPI.getState().auth.token;
+
+      const res = await axios.put(
+        `${API_URL}/booking/cancelBooking/${bookingId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return res.data.booking;
+
+    } catch (error) {
+
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Cancel failed"
+      );
+
     }
   }
 );
@@ -111,8 +167,50 @@ const bookingSlice = createSlice({
     .addCase(createBooking.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    })
+    //Reshedule booking
+    .addCase(rescheduleBooking.pending, (state) => {
+        state.loading = true;
+    })
+    .addCase(rescheduleBooking.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedBooking = action.payload.booking;
+        state.bookings = state.bookings.map((booking) =>
+            booking._id === updatedBooking._id
+                ? {
+                      ...booking,
+                      bookingDate: updatedBooking.bookingDate,
+                      bookingTime: updatedBooking.bookingTime,
+                      address: updatedBooking.address,
+                  }
+                : booking
+        );
+    })
+    .addCase(rescheduleBooking.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    })
+    //cancel booking
+    .addCase(cancelBooking.fulfilled, (state, action) => {
+    state.loading = false;
+    const index = state.bookings.findIndex(
+        booking => booking._id === action.payload._id
+    );
+
+    if(index !== -1){
+        state.bookings[index] = action.payload;
+    }
+    })
+
+    .addCase(cancelBooking.pending, (state)=>{
+        state.loading = true;
+    })
+
+    .addCase(cancelBooking.rejected,(state,action)=>{
+        state.loading = false;
+        state.error = action.payload;
     });
-  },
+      },
 });
 
 export default bookingSlice.reducer;
